@@ -1,0 +1,13 @@
+source.pptx
+source.pdf
+unpacked/
+slides/
+cases_raw.json
+cases_parsed.json
+site_data.json
+build_site.py
+app.js
+deck_text.md
+inventory.json
+*.pyc
+.DS_Store

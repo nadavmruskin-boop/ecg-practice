@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<title>תרגול אק״ג — הכנה לסבבים | נדב</title>
+<meta name="description" content="מודול לימוד ותרגול אק״ג אינטראקטיבי לסטודנט רפואה שנה 4"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#0b1220; --card:#162033; --card2:#1c2940;
+  --line:#2a3a55; --text:#e8eef8; --muted:#9aa8c0;
+  --accent:#3b82f6; --accent2:#22d3ee; --good:#34d399; --bad:#f87171;
+  --warn:#fbbf24; --purple:#a78bfa; --radius:16px;
+  --shadow:0 10px 30px rgba(0,0,0,.35); --max:980px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Heebo,Arial,sans-serif;background:linear-gradient(180deg,#0b1220,#0e1628 40%,#0b1220);color:var(--text);min-height:100vh;line-height:1.55}
+button{font:inherit}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 16px 80px}
+.topbar{position:sticky;top:0;z-index:50;backdrop-filter:blur(12px);background:rgba(11,18,32,.85);border-bottom:1px solid var(--line)}
+.topbar-inner{max-width:var(--max);margin:0 auto;padding:10px 16px;display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.brand{display:flex;gap:10px;align-items:center}
+.logo{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),var(--accent2));font-weight:800;color:#041018}
+.brand h1{font-size:1rem;margin:0;font-weight:800}
+.brand small{display:block;color:var(--muted);font-size:.75rem}
+.nav{display:flex;gap:6px;flex-wrap:wrap}
+.nav button{border:1px solid var(--line);background:var(--card);color:var(--text);padding:8px 12px;border-radius:999px;cursor:pointer;font-weight:600;font-size:.9rem}
+.nav button.active,.nav button:hover{border-color:var(--accent);background:#1a2d4d}
+.hero{margin:22px 0 18px;padding:22px;border-radius:var(--radius);background:radial-gradient(800px 200px at 100% 0%,rgba(59,130,246,.25),transparent),var(--card);border:1px solid var(--line);box-shadow:var(--shadow)}
+.hero h2{margin:0 0 8px;font-size:1.55rem;font-weight:800}
+.hero p{margin:0;color:var(--muted)}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.pill{background:#0f1a2e;border:1px solid var(--line);color:var(--muted);padding:6px 10px;border-radius:999px;font-size:.82rem}
+.pill strong{color:var(--accent2)}
+.panel{display:none}.panel.active{display:block}
+.grid{display:grid;gap:12px}
+.grid.topics{grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px;cursor:pointer;transition:.15s transform,.15s border-color}
+.card:hover{transform:translateY(-2px);border-color:var(--accent)}
+.card h3{margin:0 0 6px;font-size:1.05rem}
+.card .en{color:var(--accent2);font-size:.8rem;font-family:"IBM Plex Sans",sans-serif;margin-bottom:8px}
+.card p{margin:0;color:var(--muted);font-size:.9rem}
+.topic-view{display:none}.topic-view.open{display:block}
+.back{border:0;background:transparent;color:var(--accent2);cursor:pointer;padding:0;margin-bottom:10px;font-weight:700}
+.lesson{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+.lesson h2{margin:0 0 4px}
+.tag{display:inline-block;font-size:.75rem;color:#041018;background:var(--accent2);padding:2px 8px;border-radius:999px;font-weight:700;margin-bottom:10px}
+.block{margin:14px 0;padding:12px 14px;border-radius:12px;background:var(--card2);border:1px solid var(--line)}
+.block h4{margin:0 0 6px;display:flex;gap:8px;align-items:center;font-size:.95rem}
+.block h4 .ic{width:22px;height:22px;border-radius:6px;display:grid;place-items:center;font-size:.75rem;font-weight:800;color:#041018}
+.ic.bl{background:var(--good)}.ic.me{background:var(--accent)}.ic.cl{background:var(--purple)}.ic.ho{background:var(--warn)}.ic.ch{background:var(--accent2)}
+.block p{margin:0;color:#d5deee}
+.selfcheck .opts{display:grid;gap:8px;margin-top:8px}
+.opt{text-align:right;border:1px solid var(--line);background:#0f1a2e;color:var(--text);padding:10px 12px;border-radius:12px;cursor:pointer}
+.opt:hover{border-color:var(--accent)}
+.opt.correct{border-color:var(--good);background:rgba(52,211,153,.12)}
+.opt.wrong{border-color:var(--bad);background:rgba(248,113,113,.1)}
+.opt:disabled{cursor:default}
+.feedback{margin-top:8px;color:var(--muted);font-size:.92rem}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0;align-items:center}
+.btn{background:var(--accent);color:#fff;border:0;padding:10px 14px;border-radius:12px;cursor:pointer;font-weight:700}
+.btn.secondary{background:var(--card2);border:1px solid var(--line);color:var(--text)}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--text)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.scorebox{margin-inline-start:auto;background:#0f1a2e;border:1px solid var(--line);padding:8px 12px;border-radius:12px;font-weight:700;color:var(--accent2)}
+.qcard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow)}
+.qcard .meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.badge{font-size:.75rem;padding:3px 8px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+.badge.strip{border-color:#3b82f6;color:#93c5fd}
+.badge.monitor{border-color:#a78bfa;color:#c4b5fd}
+.badge.concept{border-color:#34d399;color:#6ee7b7}
+.stem{font-size:1.05rem;font-weight:700;margin:0 0 12px}
+.ecg{width:100%;border-radius:12px;border:1px solid var(--line);background:#fff;display:block;margin:0 0 14px;cursor:zoom-in}
+.steps-row{display:grid;gap:10px;margin-bottom:12px}
+@media(min-width:700px){.steps-row{grid-template-columns:1fr 1fr}}
+.stepbox{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:10px}
+.stepbox label{display:block;font-size:.85rem;color:var(--muted);margin-bottom:6px}
+.explain{margin-top:14px;padding:12px;border-radius:12px;background:#0f1a2e;border:1px solid var(--line)}
+.explain mark{background:rgba(251,191,36,.25);color:var(--warn);padding:0 4px;border-radius:4px}
+.flag{padding:10px 12px;border-radius:10px;margin:10px 0}
+.flag-major{background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.45);color:#fde68a}
+.progress{height:8px;background:#0f1a2e;border-radius:999px;overflow:hidden;margin:10px 0 0;border:1px solid var(--line)}
+.progress>span{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));width:0%}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.filters button{border:1px solid var(--line);background:var(--card);color:var(--muted);padding:7px 11px;border-radius:999px;cursor:pointer;font-size:.85rem}
+.filters button.on{color:var(--text);border-color:var(--accent2);background:#13233d}
+.review-item{padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--card);margin-bottom:10px}
+.review-item.wrong{border-color:rgba(248,113,113,.5)}
+.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:100;padding:16px;align-items:center;justify-content:center}
+.lightbox.open{display:flex}
+.lightbox img{max-width:100%;max-height:100%;border-radius:8px;background:#fff}
+.footer{margin-top:28px;color:var(--muted);font-size:.82rem;text-align:center}
+.muted{color:var(--muted)}
+.list-steps{margin:8px 0 0;padding-inline-start:18px}
+.list-steps li{margin:4px 0}
+.home-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="logo">ECG</div>
+      <div>
+        <h1>תרגול אק״ג</h1>
+        <small>הכנה לסבבים קליניים · שנה 4</small>
+      </div>
+    </div>
+    <nav class="nav" id="mainnav">
+      <button data-panel="home" class="active">בית</button>
+      <button data-panel="theory">תיאוריה</button>
+      <button data-panel="practice">תרגול</button>
+      <button data-panel="review">סיכום</button>
+    </nav>
+  </div>
+</div>
+
+<main class="wrap">
+  <section id="panel-home" class="panel active">
+    <div class="hero">
+      <h2>ללמוד את החומר — ואז להיבחן עליו</h2>
+      <p>מודול מבוסס מצגת התרגול (קצב ומקצב + פענוח ממוניטור), עם רקע עיוני שצריך כדי להבין כל אבחנה, וסטריפים אמיתיים מהמצגת.</p>
+      <div class="pills">
+        <span class="pill"><strong id="stat-topics">0</strong> נושאי תיאוריה</span>
+        <span class="pill"><strong id="stat-cases">0</strong> מקרי אק״ג</span>
+        <span class="pill"><strong id="stat-total">0</strong> שאלות סה״כ</span>
+        <span class="pill">עברית · RTL · מובייל</span>
+      </div>
+      <div class="home-actions">
+        <button class="btn" onclick="showPanel('theory')">התחל בתיאוריה</button>
+        <button class="btn secondary" onclick="startQuiz('all')">ישר לתרגול</button>
+      </div>
+    </div>
+    <div class="grid topics" style="margin-top:14px">
+      <div class="card" onclick="showPanel('theory')">
+        <h3>1. מודול תיאוריה</h3>
+        <p>Bottom line → מנגנון → דוגמה קלינית → Memory hook → שאלת ביקורת עצמית.</p>
+      </div>
+      <div class="card" onclick="startQuiz('all')">
+        <h3>2. תרגול אינטראקטיבי</h3>
+        <p>כל המקרים מהמצגת (סטריפ + מוניטור), בחירה מרובה וקריאה שלב-אחר-שלב.</p>
+      </div>
+      <div class="card" onclick="showPanel('review')">
+        <h3>3. מעקב טעויות</h3>
+        <p>ניקוד, סינון לפי מקור, וחזרה על שאלות שטעית בהן.</p>
+      </div>
+    </div>
+    <div class="lesson" style="margin-top:14px">
+      <h3 style="margin-top:0">סדר פענוח מהיר (מהמצגת)</h3>
+      <p class="muted">בתרגול הנוכחי הדגש הוא <strong>קצב ומקצב</strong>. השתמש תמיד ב-9 השאלות:</p>
+      <ol class="list-steps">
+        <li>האם סדיר?</li>
+        <li>אם לא — לא-סדיר בצורה סדירה או irregularly irregular?</li>
+        <li>מה המהירות?</li>
+        <li>האם קיים גל P? מורפולוגיה?</li>
+        <li>QRS אחרי כל P?</li>
+        <li>P לפני כל QRS?</li>
+        <li>יחס P:QRS</li>
+        <li>מרווח PR</li>
+        <li>רוחב QRS → אבחנת קצב ומקצב</li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="panel-theory" class="panel">
+    <div class="hero" style="padding:16px 18px">
+      <h2 style="font-size:1.25rem">מודול תיאוריה</h2>
+      <p>כל נושא בפורמט: שורה תחתונה → למה זה נראה כך → דוגמה → הוק → ביקורת עצמית.</p>
+    </div>
+    <div id="theory-list" class="grid topics"></div>
+    <div id="theory-detail" class="topic-view"></div>
+  </section>
+
+  <section id="panel-practice" class="panel">
+    <div class="hero" style="padding:16px 18px">
+      <h2 style="font-size:1.25rem">תרגול</h2>
+      <p>הצג את הסטריפ, ענה על סדירות/רוחב ואבחנה, ואז פתח הסבר מפורט.</p>
+    </div>
+    <div class="filters" id="quiz-filters">
+      <button class="on" data-filter="all">הכל</button>
+      <button data-filter="strip">סטריפים</button>
+      <button data-filter="monitor">מוניטור</button>
+      <button data-filter="concept">שאלות עיוניות</button>
+      <button data-filter="mistakes">רק טעויות</button>
+    </div>
+    <div class="toolbar">
+      <button class="btn secondary" id="btn-prev">הקודם</button>
+      <button class="btn" id="btn-next">הבא</button>
+      <button class="btn ghost" id="btn-shuffle">ערבוב</button>
+      <div class="scorebox" id="scorebox">0 / 0</div>
+    </div>
+    <div class="progress"><span id="prog"></span></div>
+    <div id="quiz-area" style="margin-top:14px"></div>
+  </section>
+
+  <section id="panel-review" class="panel">
+    <div class="hero" style="padding:16px 18px">
+      <h2 style="font-size:1.25rem">סיכום ומעקב</h2>
+      <p>התקדמות נשמרת בדפדפן (localStorage).</p>
+    </div>
+    <div class="lesson" id="review-summary"></div>
+    <div style="margin-top:12px" id="review-list"></div>
+    <div class="toolbar">
+      <button class="btn secondary" id="btn-reset">איפוס התקדמות</button>
+      <button class="btn" onclick="startQuiz('mistakes')">תרגל שוב את הטעויות</button>
+    </div>
+    <div class="lesson" style="margin-top:14px">
+      <h3 style="margin-top:0">תיקונים שבוצעו ביחס למצגת</h3>
+      <ul id="corrections-list" class="list-steps"></ul>
+    </div>
+  </section>
+
+  <p class="footer">נבנה עבור נדב · מקור: תרגול אק״ג 1 (עומרי ווינברג) · מונחים רפואיים באנגלית לפי הסטנדרט</p>
+</main>
+
+<div class="lightbox" id="lightbox" onclick="this.classList.remove('open')"><img id="lightbox-img" alt="ECG enlarged"/></div>
+
+<script>const DATA = {"theory":[{"id":"systematic","title":"קריאה שיטתית של אק״ג","title_en":"Systematic ECG Reading","bottom":"תמיד אותו סדר: קצב → מקצב → ציר → אינטרוולים (PR/QRS/QT) → גלי P → היפרטרופיה → איסכמיה/חסמים. בסטריפ מוניטור מתמקדים בקצב ומקצב.","mechanism":"פענוח אקראי מפספס ממצאים. הסדר מבטיח שלא תדלג על ברדיקרדיה, חסם, או QRS רחב מסכן חיים לפני שאתה מתעסק בפרטים קטנים.","clinical":"בחדר מיון עם מטופל לא יציב — קודם שאל: יש דופק? הקומפלקס צר או רחב? קצב מהיר או איטי? זה מכתיב ACLS לפני האבחנה המדויקת.","hook":"זכור את המסגרת של המצגת: קצב ומקצב · ציר · אינטרוולים · איסכמיה · חסמי הולכה · היפרטרופיה.","check_q":"מה הצעד הראשון בפענוח סטריפ מוניטור לפי התרגול?","check_opts":["חישוב ציר חשמלי","בדיקת סדירות וקצב","חיפוש עליית ST","מדידת QT"],"check_ans":1,"check_explain":"בתרגול זה (ובהחייאה) מתחילים תמיד מסדירות + קצב + צר/רחב."},{"id":"rate","title":"חישוב קצב","title_en":"Rate Calculation","bottom":"בנייר סטנדרטי 25 מ״מ/שנ׳: קצב ≈ 300 ÷ מספר משבצות גדולות בין R-R. חלופה: ספור קומפלקסים ב-6 שניות × 10.","mechanism":"כל משבצת גדולה = 0.2 שנ׳. אם R-R = 4 משבצות → 60/0.8 = 75 לדקה. השיטה של 300/N מהירה כשהקצב סדיר; באי-סדירות (AFib) חייבים לספור בחלון זמן.","clinical":"בסטריפ: 2 משבצות גדולות → ~150; 3 → ~100; 4 → ~75; 5 → ~60; 6 → ~50.","hook":"300-150-100-75-60-50 — שנן את הסולם לפי משבצות גדולות.","check_q":"R-R של 2 משבצות גדולות — מה הקצב?","check_opts":["~75","~100","~150","~200"],"check_ans":2,"check_explain":"300÷2 = 150 פעימות לדקה."},{"id":"regularity","title":"סדירות המקצב","title_en":"Rhythm Regularity","bottom":"סדיר / לא-סדיר-בצורה-סדירה (דפוס חוזר) / לא-סדיר-בצורה-לא-סדירה (irregularly irregular).","mechanism":"מדוד מספר מרווחי R-R. אם כולם שווים — סדיר. אם יש דפוס (התארכות-התארכות-נפילה) — לא סדיר בצורה סדירה (למשל Mobitz I). אם כאוטי ללא דפוס — AFib / MAT / VF.","clinical":"AFib = irregularly irregular ללא גלי P. Flutter עם block משתנה יכול להיראות לא סדיר אך עם גלי F מסור.","hook":"שלוש קטגוריות בלבד — אל תמציא רביעית.","check_q":"איזה מקצב הוא irregularly irregular קלאסי?","check_opts":["AVNRT","Atrial fibrillation","Sinus bradycardia","Monomorphic VT"],"check_ans":1,"check_explain":"AFib: אין P, baseline רעד, R-R אקראיים."},{"id":"nsr","title":"קצב סינוס תקין (NSR)","title_en":"Normal Sinus Rhythm","bottom":"סדיר, 60–100, גל P תקין לפני כל QRS, יחס 1:1, PR תקין, QRS צר.","mechanism":"הקוצב הוא SA node → דה-פולריזציה פרוזדורית (P) → השהיה ב-AV node (PR) → הולכה דרך His-Purkinje (QRS צר).","clinical":"גבר צעיר לבדיקת חדר כושר — NSR ב-75. זה ה-baseline שממנו משווים כל חריגה.","hook":"P לפני כל QRS + QRS אחרי כל P = סינוס (אם המורפולוגיה תקינה).","check_q":"מה מגדיר NSR מבחינת קצב?","check_opts":["40–60","60–100","100–150","כל קצב עם גל P"],"check_ans":1,"check_explain":"NSR = 60–100. מתחת ל-60 = sinus bradycardia; מעל 100 = sinus tachycardia."},{"id":"sinus-tachy-brady","title":"Sinus Tachycardia ו-Bradycardia","title_en":"Sinus Tachy / Brady","bottom":"אותו מנגנון של סינוס, רק מהיר (>100) או איטי (<60). חפש תמיד סיבה פיזיולוגית/פתולוגית.","mechanism":"טכי: גירוי סימפתטי / ירידה וגאלית (חום, כאב, היפוולמיה, PE, היפרתירואיד). ברדי: טונוס וגאלי גבוה (ספורטאים), תרופות (β-blockers), היפותירואיד, איסכמיה תחתונה.","clinical":"אישה עם חום ושיעול → sinus tach 150. ספורטאי לפני תחרות → sinus brady ~38 — יכול להיות נורמלי!","hook":"Sinus tach הוא סימן — לא אבחנה. תטפל בסיבה.","check_q":"ספורטאי אסימפטומטי עם קצב 45 ו-P תקין — האבחנה?","check_opts":["Complete heart block","Sinus bradycardia","Junctional escape","Sick sinus"],"check_ans":1,"check_explain":"P תקין + 1:1 + איטי = sinus bradycardia; בספורטאים לעיתים פיזיולוגי."},{"id":"avnrt","title":"AVNRT","title_en":"AV Nodal Reentrant Tachycardia","bottom":"טכיקרדיה על-חדרית סדירה, QRS צר, לרוב ללא גל P נראה (או P רטרוגרדי מיד אחרי QRS). קצב טיפוסי 140–220.","mechanism":"מעגל reentry בתוך/ליד צומת AV: מסלול איטי ומסלול מהיר. בדרך כלל הולכה down-slow / up-fast → P נקבר ב-QRS או מופיע כ-pseudo-r' ב-V1.","clinical":"צעיר עם דפיקות פתאומיות בהליכה — AVNRT ב-150. מתחיל ונגמר בפתאומיות (paroxysmal).","hook":"SVT צר + סדיר + בלי P ברור בצעיר = חשוב על AVNRT.","check_q":"מה מאפיין ECG קלאסי של AVNRT typical?","check_opts":["גלי F מסור","P הפוך עם PR ארוך","P חבוי/מיידי אחרי QRS","QRS רחב מונומורפי"],"check_ans":2,"check_explain":"ב-typical AVNRT ה-P הרטרוגרדי נטמן ב-QRS או מיד אחריו."},{"id":"avrt-wpw","title":"AVRT ו-WPW (אורתו vs אנטי)","title_en":"AVRT / WPW","bottom":"Orthodromic AVRT = QRS צר (הולכה דרך AV node, חזרה במסלול אביזר). Antidromic AVRT = QRS רחב (הולכה במסלול אביזר → pre-excitation). שניהם סדירים.","mechanism":"ב-WPW יש accessory pathway (Bundle of Kent). אורתודרומי: פרוזדור→AV→חדר→pathway→פרוזדור. אנטידרומי: פרוזדור→pathway→חדר (רחב!)→AV→פרוזדור.","clinical":"נער אחרי מאמץ → orthodromic AVRT (צר). ילד עם WPW ידוע שמתמוטט בכדורסל → חשוב לשקול antidromic (רחב) או AF+WPW (לא סדיר + רחב).","hook":"Ortho = Narrow כמו רגיל. Anti = Wide כמו VT. היסטוריית WPW מכריעה.","check_q":"Antidromic AVRT — מה רוחב ה-QRS?","check_opts":["צר תמיד","רחב (pre-excited)","משתנה כל פעימה","תלוי רק בקצב"],"check_ans":1,"check_explain":"באנטידרומי החדרים מופעלים דרך ה-pathway → QRS רחב עם דלתא. (במצגת צוין בטעות 'צר' — ראה תיקון בתרגול).","correction_note":"במצגת בשאלה על AVRT אנטידרומי נכתב QRS צר — זה שגוי. אנטידרומי = רחב."},{"id":"atrial-tach","title":"Atrial Tachycardia","title_en":"Atrial Tachycardia","bottom":"סדיר, QRS צר, יש גל P אבל במורפולוגיה לא-סינוסית (לעיתים הפוך ב-II/III/aVF אם המוקד תחתון).","mechanism":"מוקד אקטופי בפרוזדור (enhanced automaticity / micro-reentry) יורה בקצב גבוה יותר מ-SA. ה-AV מוליך בדרך כלל 1:1.","clinical":"מטופלת 60 עם דפיקות ממושכות → atrial tach ~100 עם P הפוך שמקדים את ה-QRS.","hook":"יש P, אבל הוא 'לא נראה כמו סינוס' → AT.","check_q":"מה מבדיל atrial tachycardia מ-NSR?","check_opts":["QRS רחב","מורפולוגיית P לא תקינה","היעדר מוחלט של P","אי-סדירות מלאה"],"check_ans":1,"check_explain":"AT שומר על P לפני QRS אך המורפולוגיה/ציר ה-P שונים מסינוס."},{"id":"afib","title":"Atrial Fibrillation","title_en":"AFib","bottom":"Irregularly irregular, אין גלי P, baseline עם f-waves, QRS בדרך כלל צר. קצב חדרי משתנה.","mechanism":"מאות מוקדים/גלים בפרוזדורים (בעיקר סביב pulmonary veins) → אין כיווץ פרוזדורי מתואם. ה-AV node 'מסנן' באופן לא סדיר.","clinical":"אישה מבוגרת עם HTN, דפיקות לא סדירות ועייפות → AFib ~130 (RVR).","hook":"אין P + לא סדיר בכלל = AFib עד שתוכיח אחרת.","check_q":"מה הכרחי לאבחנת AFib באק״ג?","check_opts":["גלי F מסור","היעדר P + irregularly irregular","PR מוארך","QRS רחב"],"check_ans":1,"check_explain":"שני הקריטריונים הקלאסיים: אין P, ו-R-R אקראיים."},{"id":"aflutter","title":"Atrial Flutter","title_en":"Atrial Flutter","bottom":"גלי F בצורת מסור (sawtooth) בעיקר ב-II/III/aVF, קצב פרוזדורי ~300, הולכה 2:1/3:1/4:1. יכול להיות סדיר או לא-סדיר-בצורה-סדירה.","mechanism":"Macro-reentry סביב ה-tricuspid annulus (typical flutter). ה-AV block פיזיולוגי קובע את היחס.","clinical":"גבר עם IHD, דפיקות → flutter עם 3:1 (~100 חדרי). במוניטור עם 4:1 (~75).","hook":"מסור ב-II, III, aVF = Flutter. 300 atrial ÷ יחס = ventricular rate.","check_q":"Flutter עם atrial rate 300 והולכה 4:1 — קצב חדרי?","check_opts":["75","100","150","300"],"check_ans":0,"check_explain":"300÷4 = 75."},{"id":"mat","title":"MAT — Multifocal Atrial Tachycardia","title_en":"MAT","bottom":"לא סדיר, ≥3 מורפולוגיות P שונות, קצב >100, PR משתנה. אופייני ל-COPD.","mechanism":"מספר מוקדים פרוזדוריים יורים לסירוגין (היפוקסיה, היפרקפניה, תרופות סימפטומימטיות).","clinical":"גבר 75 עם COPD, קוצר נשימה וסטורציה נמוכה → MAT ~110.","hook":"COPD + ≥3 צורות P = MAT (לא AFib!).","check_q":"מה מבדיל MAT מ-AFib?","check_opts":["QRS רחב ב-MAT","נוכחות גלי P ברורים (≥3 צורות)","קצב תמיד <60","אין קשר קליני"],"check_ans":1,"check_explain":"ב-MAT יש P waves אמיתיים במורפולוגיות שונות; ב-AFib אין P."},{"id":"vt","title":"Monomorphic VT","title_en":"Ventricular Tachycardia","bottom":"טכיקרדיה סדירה עם QRS רחב (>120ms), לרוב 120–200. אחרי אוטם = VT עד שתוכיח אחרת.","mechanism":"Reentry סביב צלקת אוטומטית בחדרים. כל הקומפלקסים באותה מורפולוגיה = מונומורפי.","clinical":"לאחר אוטם חריף, סחרחורת והתעלפות → monomorphic VT ~150. במוניטור לאחר אוטם עם לחץ נמוך → VT ~181.","hook":"Wide + Fast + Regular + מטופל עם לב חולה = VT.","check_q":"Wide-complex tachycardia סדיר במטופל אחרי MI — הגישה?","check_opts":["תמיד Adenosine קודם","התייחס כ-VT עד שיוכח אחרת","תמיד רק SVT עם aberrancy","התעלם אם לחץ תקין"],"check_ans":1,"check_explain":"כלל זהב: WCT = VT עד שתוכיח אחרת, במיוחד עם מחלת לב מבנית."},{"id":"pvt-tdp","title":"Polymorphic VT / Torsades","title_en":"Polymorphic VT / TdP","bottom":"QRS רחב שמשנה צורה/ציר ('מתפתל'), קצב מהיר מאוד (~200). עם QT מוארך = Torsades de Pointes.","mechanism":"early afterdepolarizations ברקע QT ארוך (תרופות, אלקטרוליטים). פלורוקווינולונים, היפו-K/Mg, הקאות מרובות.","clinical":"אחרי פלורוקווינולונים → polymorphic VT ~200. אחרי הקאות מרובות (היפו-K) → TdP ~198.","hook":"מתפתל סביב הקו = Torsades. חפש QT ותרופות.","check_q":"טיפול דחוף ב-TdP עם דופק?","check_opts":["Digoxin","Magnesium IV","β-blocker בלבד","Verapamil"],"check_ans":1,"check_explain":"מגנזיום IV הוא הטיפול הראשון ב-TdP, גם אם Mg בדם 'תקין'."},{"id":"vf","title":"VF — Fibrillation חדרית","title_en":"Ventricular Fibrillation","bottom":"אין QRS מאורגן, אין דופק, גל כאוטי. זו אסיסטולה חשמלית מבחינה תפקודית — דפיברילציה מיידית.","mechanism":"מאות מעגלי reentry בחדרים → אין תפוקת לב.","clinical":"קורס ברחוב ללא דופק → VF. קורס בחדר מיון → VF. הקצב המספרי על המוניטור חסר משמעות קלינית — אין פעימות אפקטיביות.","hook":"כאוס גמור + אין דופק = VF → shock.","check_q":"מה הטיפול המיידי ב-VF?","check_opts":["Adenosine","דפיברילציה (unsynchronized shock)","Atropine","המתנה ל-12-lead"],"check_ans":1,"check_explain":"VF/pVT ללא דופק → CPR + defibrillation מיידיים לפי ACLS."},{"id":"avb1","title":"AV Block מדרגה ראשונה","title_en":"First-degree AV Block","bottom":"כל P מוליך ל-QRS, אבל PR >200ms (מוארך). קצב לרוב סדיר.","mechanism":"השהיה מוגברת ב-AV node (טונוס וגאלי, תרופות, מוליך).","clinical":"גבר 60 אסימפטומטי בבדיקה שגרתית → PR 0.28 שנ׳ = 1° AVB. לרוב לא דורש טיפול.","hook":"הכל עובר — רק לאט יותר. PR ארוך.","check_q":"PR של 280ms עם יחס 1:1 — האבחנה?","check_opts":["Mobitz I","1° AVB","Complete heart block","WPW"],"check_ans":1,"check_explain":"PR מוארך עם הולכה 1:1 = first-degree AV block."},{"id":"mobitz1","title":"Mobitz I (Wenckebach)","title_en":"Second-degree AVB Type I","bottom":"PR מתארך → מתארך → נפילת QRS. לא סדיר בצורה סדירה. לרוב ברמת AV node, QRS צר.","mechanism":"עייפות הולכתית מתקדמת ב-AV node עד כשל הולכה זמני, ואז 'איפוס'.","clinical":"סטודנט אחרי צום עם סחרחורת קלה → Mobitz I. לרוב שפיר יותר מ-Mobitz II.","hook":"Lengthening, lengthening, drop = Wenckebach.","check_q":"סימן ההיכר של Mobitz I?","check_opts":["PR קבוע עם נפילות","התארכות PR עד נפילה","אין קשר P-QRS","QRS רחב תמיד"],"check_ans":1,"check_explain":"התארכות פרוגרסיבית של PR לפני dropped beat."},{"id":"mobitz2","title":"Mobitz II","title_en":"Second-degree AVB Type II","bottom":"PR קבוע (תקין או מוארך) עם נפילות QRS פתאומיות ללא התארכות. מסוכן יותר — לרוב מתחת ל-AV node.","mechanism":"מחלה ב-His-Purkinje. עלול להתקדם ל-complete heart block.","clinical":"גבר אחרי אוטם קדמי עם עילפון → Mobitz II. אינדיקציה לפולינג/קוצב.","hook":"Drop בלי אזהרה + PR קבוע = Mobitz II = danger.","check_q":"למה Mobitz II מסוכן יותר מ-Mobitz I?","check_opts":["קצב תמיד מהיר יותר","לרוב infranodal ועלול להתקדם ל-CHB","תמיד עם AFib","אין הבדל פרוגנוסטי"],"check_ans":1,"check_explain":"Mobitz II הוא לרוב His-Purkinje disease עם סיכון גבוה ל-complete block."},{"id":"highgrade-cavb","title":"High-grade AVB ו-Complete AVB","title_en":"High-grade & Complete Heart Block","bottom":"High-grade: ≥2 P שנחסמים ברצף (למשל 3:1) עם עדיין קשר מסוים. CAVB: אין קשר בין P ל-QRS (AV dissociation) — קצב בריחה צמתי (צר, ~40–60) או חדרי (רחב, ~20–40).","mechanism":"חסימה כמעט מלאה או מלאה של ההולכה דרך ה-AV. הקוצב הבריחתי קובע את רוחב ה-QRS והקצב.","clinical":"סינקופה + דופק 30–40 → high-grade או CAVB. QRS צר בבריחה = junctional; רחב = ventricular escape.","hook":"P הולכים בקצב שלהם, QRS בקצב אחר, בלי קשר = Complete.","check_q":"CAVB עם QRS רחב וקצב ~34 — סוג הבריחה?","check_opts":["Sinus","Junctional escape","Ventricular escape","Atrial escape"],"check_ans":2,"check_explain":"בריחה חדרית: QRS רחב, קצב איטי מאוד (~20–40)."},{"id":"escape-aivr","title":"קצבי בריחה ו-AIVR","title_en":"Escape & Idioventricular","bottom":"כשהקוצבים העליונים נכשלים/נחסמים — junctional (~40–60, צר) או ventricular/idioventricular (~20–40, רחב). AIVR אחרי רה-פרפוזיה (תרומבוליזה) לרוב שפיר וחולף.","mechanism":"Automaticity של קוצב נמוך מתגלה כשהקצב העליון איטי מדי (escape) או כפעילות מוגברת איסכמית (AIVR ~60–120).","clinical":"אחרי תרומבוליזה — idioventricular ~23 שחולף ספונטנית. לא למהר לדכא עם אנטי-אריתמיקה אם יציב המודינמית.","hook":"בריחה = הצלה. אל תהרוג את הקוצב היחיד שעובד.","check_q":"AIVR אחרי תרומבוליזה במטופל יציב — הגישה?","check_opts":["Amiodarone מיידי","השגחה — לרוב חולף","דפיברילציה","Adenosine"],"check_ans":1,"check_explain":"AIVR הוא לרוב reperfusion rhythm שפיר; מטפלים רק אם לא יציב."},{"id":"narrow-vs-wide","title":"צר מול רחב — אלגוריתם מהיר","title_en":"Narrow vs Wide Complex","bottom":"QRS <120ms = על-חדרי (בדרך כלל). QRS >120ms = חדרי או על-חדרי עם aberrancy/pre-excitation. לא יציב → חשמל לפי ACLS.","mechanism":"הולכה דרך His-Purkinje → צר. מקור חדרי או מסלול אביזר → רחב.","clinical":"צעיר יציב עם SVT צר → vagal/adenosine. מבוגר לא יציב עם WCT → synchronized cardioversion כ-VT.","hook":"לא יציב? אל תתווכח על האבחנה — shock מסונכרן (או defibrillation אם אין דופק).","check_q":"מטופל לא יציב עם wide-complex tachycardia — הצעד?","check_opts":["המתנה לקרדיולוג","Cardioversion דחוף","רק נוזלים","Digoxin PO"],"check_ans":1,"check_explain":"חוסר יציבות + טכיקרדיה → synchronized cardioversion (או defibrillation אם pulseless)."}],"cases":[{"id":"case-3","slide":3,"source":"strip","stem":"1. גבר בן 25 בריא בד\"כ במהלך בדיקת אק\"ג שגרתית לצורך אישור חדר כושר ללא תלונות.","answer":"NSR בקצב של 75 פעימות בדקה","short":"NSR","image":"images/slide03.jpg","options":["NSR","Sinus tachycardia","AVNRT","Atrial fibrillation"],"correct":0,"steps":[{"label":"סדירות","value":"כן"},{"label":"קצב","value":"4 משבצות גדולות כלומר קצב 75"},{"label":"גל P","value":"קיים, מורפולוגיה תקינה"},{"label":"יחס P:QRS","value":"יחס של 1:1"},{"label":"מרווח PR","value":"תקין"},{"label":"רוחב QRS","value":"צר"}],"explain_html":"<p><strong>אבחנה:</strong> NSR בקצב של 75 פעימות בדקה</p><p><strong>איפה להסתכל על הסטריפ:</strong> חפש גל P עגול לפני כל QRS, מרווחי R-R שווים, קצב 60–100.</p><p><strong>ניתוח שיטתי (מהמצגת):</strong></p><ul><li>1. האם סדיר? - כן</li><li>2. אם לא סדיר – האם לא סדיר בצורה סדירה? או לא סדיר בצורה לא סדירה? - לא רלוונטי</li><li>3. מה המהירות? -  4 משבצות גדולות כלומר קצב 75</li><li>4. האם קיים גל P ? אם כן, מה המורפולוגיה שלו? - קיים, מורפולוגיה תקינה</li><li>5. האם יש קומפלקס QRS אחרי כל גל P? כן</li><li>6. האם יש גל P לפני כל QRS ? כן</li><li>7.יחס מספרי P:QRS? -  יחס של 1:1</li><li>7. מרווח PR - תקין</li><li>8.רוחב QRS ? - צר</li><li>9. אבחנה של קצב ומקצב - NSR בקצב של 75 פעימות בדקה</li></ul>","flags":[],"step_reg":0,"step_qrs":0,"look_for":"חפש גל P עגול לפני כל QRS, מרווחי R-R שווים, קצב 60–100."},{"id":"case-4","slide":4,"source":"strip","stem":"2. אישה בת 32 עם חום גבוה ושיעול מגיעה למיון לצורך בירור.","answer":"sinus tachycardia בקצב של 150 פעימות בדקה","short":"Sinus tachycardia","image":"images/slide04.jpg","options":["NSR","Sinus tachycardia","AVNRT","Atrial flutter"],"correct":1,"steps":[{"label":"סדירות","value":"כן"},{"label":"קצב","value":"2 משבצות גדולות כלומר קצב 150"},{"label":"גל P","value":"קיים, מורפולוגיה תקינה"},{"label":"יחס P:QRS","value":"יחס של 1:1"},{"label":"מרווח PR","value":"תקין"},{"label":"רוחב QRS","value":"צר"}],"explain_html":"<p><strong>אבחנה:</strong> sinus tachycardia בקצב של 150 פעימות בדקה</p><p><strong>איפה להסתכל על הסטריפ:</strong> אותם מאפייני סינוס אבל R-R קצר (קצב &gt;100). חפש P ב-lead II.</p><p><strong>ניתוח שיטתי (מהמצגת):</strong></p><ul><li>1. האם סדיר? - כן</li><li>2. אם לא סדיר – האם לא סדיר בצורה סדירה? או לא סדיר בצורה לא סדירה? - לא רלוונטי</li><li>3. מה המהירות? -  2 משבצות גדולות כלומר קצב 150</li><li>4. האם קיים גל P ? אם כן, מה המורפולוגיה שלו? - קיים, מורפולוגיה תקינה</li><li>5. האם יש קומפלקס QRS אחרי כל גל P? כן</li><li>6. האם יש גל P לפני כל QRS ? כן</li><li>7.יחס מספרי P:QRS? -  יחס של 1:1</li><li>7. מרווח PR - תקין</li><li>8.רוחב QRS ? - צר</li><li>9. אבחנה של קצב ומקצב  - sinus tachycardia בקצב של 150 פעימות בדקה</li></ul>","flags":[],"step_reg":0,"step_qrs":0,"look_for":"אותם מאפייני סינוס אבל R-R קצר (קצב >100). חפש P ב-lead II."},{"id":"case-5","slide":5,"source":"strip","stem":"3. גבר בן 28 מגיע למיון עקב תחושה של דפיקות לב מהירות שהחלו במהלך הליכה","answer":"AVNRT בקצב של 150 פעימות בדקה","short":"AVNRT","image":"images/slide05.jpg","options":["Sinus tachycardia","AVNRT","Atrial fibrillation","Monomorphic VT"],"correct":1,"steps":[{"label":"סדירות","value":"כן"},{"label":"קצב","value":"2 משבצות גדולות כלומר קצב 150"},{"label":"גל P","value":"לא קיים"},{"label":"יחס P:QRS","value":"יחס של לא רלוונטי"},{"label":"מרווח PR","value":"לא רלוונטי"},{"label":"רוחב QRS","value":"צר"}],"explain_html":"<p><strong>אבחנה:</strong> AVNRT בקצב של 150 פעימות בדקה</p><p><strong>איפה להסתכל על הסטריפ:</strong> קצב סדיר ומהיר, QRS צר, baseline שטוח בלי P ברור לפני הקומפלקס — ה-P נטמן בתוך/אחרי QRS.</p><p><strong>ניתוח שיטתי (מהמצגת):</strong></p><ul><li>1. האם סדיר? - כן</li><li>2. אם לא סדיר – האם לא סדיר בצורה סדירה? או לא סדיר בצורה לא סדירה? - לא רלוונטי</li><li>3. מה המהירות? -  2 משבצות גדולות כלומר קצב 150</li><li>4. האם קיים גל P ? אם כן, מה המורפולוגיה שלו? - לא קיים</li><li>5. האם יש קומפלקס QRS אחרי כל גל P? לא רלוונטי</li><li>6. האם יש גל P לפני כל QRS ? לא רלוונטי</li><li>7.יחס מספרי P:QRS? -  יחס של לא רלוונטי</li><li>7. מרווח PR - לא רלוונטי</li><li>8.רוחב QRS ? - צר</li><li>9. אבחנה של קצב ומקצב - AVNRT בקצב של 150 פעימות בדקה</li></ul>","flags":[],"step_reg":0,"step_qrs":0,"look_for":"קצב סדיר ומהיר, QRS צר, baseline שטוח בלי P ברור לפני הקומפלקס — ה-P נטמן בתוך/אחרי QRS."},{"id":"case-6","slide":6,"source":"strip","stem":"4.  נער בן 16 לאחר מאמץ גופני מדווח על דפיקות חזקות ותחושת חולשה קלה","answer":"AVRT אורטודרומי בקצב של 150 פעימות בדקה","short":"AVRT orthodromic","image":"images/slide06.jpg","options":["AVNRT","AVRT orthodromic","AVRT antidromic","Monomorphic VT"],"correct":1,"steps":[{"label":"סדירות","value":"כן"},{"label":"קצב","value":"2 משבצות גדולות כלומר קצב 150"},{"label":"גל P","value":"לא קיים"},{"label":"יחס P:QRS","value":"יחס של לא רלוונטי"},{"label":"מרווח PR","value":"לא רלוונטי"},{"label":"רוחב QRS","value":"צר"}],"explain_html":"<p><strong>אבחנה:</strong> AVRT אורטודרומי בקצב של 150 פעימות בדקה</p><p><strong>איפה להסתכל על הסטריפ:</strong> כמו SVT צר סדיר; בהיעדר delta בשעת הטכיקרדיה קשה להבדיל מ-AVNRT — ההקשר הקליני (גיל צעיר, מאמץ) והיסטוריית WPW עוזרים.</p><p><strong>ניתוח שיטתי (מהמצגת):</strong></p><ul><li>1. האם סדיר? - כן</li><li>2. אם לא סדיר – האם לא סדיר בצורה סדירה? או לא סדיר בצורה לא סדירה? - לא רלוונטי</li><li>3. מה המהירות? -  2 משבצות גדולות כלומר קצב 150</li><li>4. האם קיים גל P ? אם כן, מה המורפולוגיה שלו? - לא קיים</li><li>5. האם יש קומפלקס QRS אחרי כל גל P? לא רלוונטי</li><li>6. האם יש גל P לפני כל QRS ? לא רלוונטי</li><li>7.יחס מספרי P:QRS? -  יחס של לא רלוונטי</li><li>7. מרווח PR - לא רלוונטי</li><li>8.רוחב QRS ? - צר</li><li>9. אבחנה של קצב ומקצב - AVRT אורטודרומי בקצב של 150 פעימות בדקה</li></ul>","flags":[],"step_reg":0,"step_qrs":0,"look_for":"כמו SVT צר סדיר; בהיעדר delta בשעת הטכיקרדיה קשה להבדיל מ-AVNRT — ההקשר הקליני (גיל צעיר, מאמץ) והיסטוריית WPW עוזרים."},{"id":"case-7","slide":7,"source":"strip","stem":"5.  בן 13 עם תסמונת WPW  מתמוטט לפתע במהלך משחק כדורסל","answer":"AVRT אנטידרומי בקצב של 150 פעימות בדקה","short":"AVRT antidromic","image":"images/slide07.jpg","options":["AVRT orthodromic","AVRT antidromic","Monomorphic VT","AVNRT"],"correct":1,"steps":[{"label":"סדירות","value":"כן"},{"label":"קצב","value":"2 משבצות גדולות כלומר קצב 150"},{"label":"גל P","value":"לא קיים"},{"label":"יחס P:QRS","value":"יחס של לא רלוונטי"},{"label":"מרווח PR","value":"לא רלוונטי"},{"label":"רוחב QRS","value":"רחב (תיקון: במצגת נכתב צר בטעות)","corrected":true}],"explain_html":"<p><strong>אבחנה:</strong> AVRT אנטידרומי בקצב של 150 פעימות בדקה</p><p><strong>איפה להסתכל על הסטריפ:</strong> QRS רחב וסדיר בצעיר עם WPW. הבדל מ-VT: גיל, היסטוריית WPW, ולעיתים מורפולוגיה pre-excited. זכור: רחב!</p><p><strong>ניתוח שיטתי (מהמצגת):</strong></p><ul><li>1. האם סדיר? - כן</li><li>2. אם לא סדיר – האם לא סדיר בצורה סדירה? או לא סדיר בצורה לא סדירה? - לא רלוונטי</li><li>3. מה המהירות? -  2 משבצות גדולות כלומר קצב 150</li><li>4. האם קיים גל P ? אם כן, מה המורפולוגיה שלו? - לא קיים</li><li>5. האם יש קומפלקס QRS אחרי כל גל P? לא רלוונטי</li><li>6. האם יש גל P לפני כל QRS ? לא רלוונטי</li><li>7.יחס מספרי P:QRS? -  יחס של לא רלוונטי</li><li>7. מרווח PR - לא רלוונטי</li><li>8. רוחב QRS? — <mark>רחב (תוקן; במצגת נכתב צר)</mark></li><li>9. אבחנה של קצב ומקצב - AVRT אנטידרומי בקצב של 150 פעימות בדקה</li></ul><p class='flag flag-major'>⚠ תיקון רפואי: במצגת נכתב שרוחב QRS צר ב-AVRT אנטידרומי — זה שגוי. באנטידרומי ההולכה לחדרים היא דרך accessory pathway ולכן QRS רחב (pre-excited). אורתודרומי = צר; אנטידרומי = רחב.</p>","flags":[{"severity":"major","text":"במצגת נכתב שרוחב QRS צר ב-AVRT אנטידרומי — זה שגוי. באנטידרומי ההולכה לחדרים היא דרך accessory pathway ולכן QRS רחב (pre-excited). אורתודרומי = צר; אנטידרומי = רחב."}],"step_reg":0,"step_qrs":1,"look_for":"QRS רחב וסדיר בצעיר עם WPW. הבדל מ-VT: גיל, היסטוריית WPW, ולעיתים מורפולוגיה pre-excited. זכור: רחב!"},{"id":"case-8","slide":8,"source":"strip","stem":"6. מטופלת בת 60 מרגישה דפיקות ממושכות ללא סיבה ברורה, ללא סחרחורת","answer":"atrial tachycardia בקצב של 100 פעימות בדקה","short":"Atrial tachycardia","image":"images/slide08.jpg","options":["NSR","Atrial tachycardia","AVNRT","MAT"],"correct":1,"steps":[{"label":"סדירות","value":"כן"},{"label":"קצב","value":"3 משבצות גדולות כלומר קצב 100 פעימות בדקה"},{"label":"גל P","value":"קיים, גל P הפוך שמקדים את הקומפלקס"},{"label":"יחס P:QRS","value":"יחס של 1:1"},{"label":"מרווח PR","value":"תקין"},{"label":"רוחב QRS","value":"צר"}],"explain_html":"<p><strong>אבחנה:</strong> atrial tachycardia בקצב של 100 פעימות בדקה</p><p><strong>איפה להסתכל על הסטריפ:</strong> יש P לפני QRS אבל מורפולוגיה חריגה (למשל הפוך) — סמן את ה-P השונה מסינוס.</p><p><strong>ניתוח שיטתי (מהמצגת):</strong></p><ul><li>1. האם סדיר? - כן</li><li>2. אם לא סדיר – האם לא סדיר בצורה סדירה? או לא סדיר בצורה לא סדירה? - לא רלוונטי</li><li>3. מה המהירות? -  3 משבצות גדולות כלומר קצב 100 פעימות בדקה</li><li>4. האם קיים גל P ? אם כן, מה המורפולוגיה שלו? - קיים, גל P הפוך שמקדים את הקומפלקס</li><li>5. האם יש קומפלקס QRS אחרי כל גל P? כן</li><li>6. האם יש גל P לפני כל QRS ? כן</li><li>7.יחס מספרי P:QRS? -  יחס של 1:1</li><li>7. מרווח PR - תקין</li><li>8.רוחב QRS ? - צר</li><li>9. אבחנה של קצב ומקצב -atrial tachycardia בקצב של 100 פעימות בדקה</li></ul>","flags":[],"step_reg":0,"step_qrs":0,"look_for":"יש P לפני QRS אבל מורפולוגיה חריגה (למשל הפוך) — סמן את ה-P השונה מסינוס."},{"id":"case-9","slide":9,"source":"strip","stem":"7.  אישה בת 78 עם יתר לחץ דם מרגישה דפיקות לא סדירות ותחושת עייפות כרונית","answer":"a.fib בקצב של כ-130 פעימות בדקה","short":"Atrial fibrillation","image":"images/slide09.jpg","options":["Atrial fibrillation","Atrial flutter","MAT","Sinus tachycardia"],"correct":0,"steps":[{"label":"סדירות","value":"לא"},{"label":"קצב","value":"13 קומפלקסים ב6 שניות כלומר קצב 130"},{"label":"גל P","value":"לא קיים"},{"label":"יחס P:QRS","value":"לא רלוונטי"},{"label":"מרווח PR","value":"לא רלוונטי"},{"label":"רוחב QRS","value":"צר"}],"explain_html":"<p><strong>אבחנה:</strong> a.fib בקצב של כ-130 פעימות בדקה</p><p><strong>איפה להסתכל על הסטריפ:</strong> אין P כלל; ה-baseline רועד; מדוד כמה מרווחי R-R ותראה שהם משתנים באקראי.</p><p><strong>ניתוח שיטתי (מהמצגת):</strong></p><ul><li>1. האם סדיר? - לא</li><li>2. אם לא סדיר – האם לא סדיר בצורה סדירה? או לא סדיר בצורה לא סדירה? - לא סדיר בצורה לא סדירה</li><li>3. מה המהירות? - 13 קומפלקסים ב6 שניות כלומר קצב 130</li><li>4. האם קיים גל P ? אם כן, מה המורפולוגיה שלו? - לא קיים</li><li>5. האם יש קומפלקס QRS אחרי כל גל P? לא רלוונטי</li><li>6. האם יש גל P לפני כל QRS ? לא רלוונטי</li><li>7.יחס מספרי P:QRS? -  לא רלוונטי</li><li>7. מרווח PR - לא רלוונטי</li><li>8.רוחב QRS ? - צר</li><li>9. אבחנה של קצב ומקצב - a.fib בקצב של כ-130 פעימות בדקה</li></ul>","flags":[],"step_reg":2,"step_qrs":0,"look_for":"אין P כלל; ה-baseline רועד; מדוד כמה מרווחי R-R ותראה שהם משתנים באקראי."},{"id":"case-10","slide":10,"source":"strip","stem":"8. גבר בן 70 עם מחלת לב איסכמית מדווח על דפיקות סדירות ומהירות מאוד.","answer":"a.flutter בקצב של כ100 פעימות בדקה עם יחס העברה של 3:1","short":"Atrial flutter","image":"images/slide10.jpg","options":["Atrial fibrillation","Atrial flutter","AVNRT","MAT"],"correct":1,"steps":[{"label":"סדירות","value":"לא"},{"label":"קצב","value":"10 קומפלקסים ב6 שניות כלומר קצב של כ100 פעימות בדקה"},{"label":"גל P","value":"קיימים גלי F"},{"label":"יחס P:QRS","value":"יחס של על כל 3 גלי F יש קומפלקס 1"},{"label":"מרווח PR","value":"לא רלוונטי"},{"label":"רוחב QRS","value":"צר"}],"explain_html":"<p><strong>אבחנה:</strong> a.flutter בקצב של כ100 פעימות בדקה עם יחס העברה של 3:1</p><p><strong>איפה להסתכל על הסטריפ:</strong> חפש מסור רציף בין הקומפלקסים (בעיקר תחתונים). ספור כמה &#x27;שיניים&#x27; בין שני QRS ליחס ההולכה.</p><p><strong>ניתוח שיטתי (מהמצגת):</strong></p><ul><li>1. האם סדיר? - לא</li><li>2. אם לא סדיר – האם לא סדיר בצורה סדירה? או לא סדיר בצורה לא סדירה? - לא סדיר בצורה סדירה</li><li>3. מה המהירות? - 10 קומפלקסים ב6 שניות כלומר קצב של כ100 פעימות בדקה</li><li>4. האם קיים גל P ? אם כן, מה המורפולוגיה שלו? - קיימים גלי F</li><li>5. האם יש קומפלקס QRS אחרי כל גל P? לא</li><li>6. האם יש גל P לפני כל QRS ? לא</li><li>7.יחס מספרי P:QRS? -  יחס של על כל 3 גלי F יש קומפלקס 1</li><li>7. מרווח PR - לא רלוונטי</li><li>8.רוחב QRS ? - צר</li><li>9. אבחנה של קצב ומקצב - a.flutter בקצב של כ100 פעימות בדקה עם יחס העברה של 3:1</li></ul>","flags":[],"step_reg":2,"step_qrs":0,"look_for":"חפש מסור רציף בין הקומפלקסים (בעיקר תחתונים). ספור כמה 'שיניים' בין שני QRS ליחס ההולכה."},{"id":"case-11","slide":11,"source":"strip","stem":"9. גבר בן 75 עם COPD מאושפז עם קוצר נשימה וסטורציה נמוכה.","answer":"MAT בקצב של כ110 פעימות בדקה","short":"MAT","image":"images/slide11.jpg","options":["Atrial fibrillation","MAT","Atrial flutter","Sinus tachycardia"],"correct":1,"steps":[{"label":"סדירות","value":"לא"},{"label":"קצב","value":"11 קומפלקסים ב6 שניות כלומר קצב של 110 פעימות בדקה"},{"label":"גל P","value":"קיימים 3 סוגים של גלי P שונים"},{"label":"יחס P:QRS","value":"יחס של 1:1"},{"label":"מרווח PR","value":"תקין"},{"label":"רוחב QRS","value":"צר"}],"explain_html":"<p><strong>אבחנה:</strong> MAT בקצב של כ110 פעימות בדקה</p><p><strong>איפה להסתכל על הסטריפ:</strong> סמן לפחות 3 צורות P שונות לאורך הסטריפ; אל תבלבל עם AFib — כאן יש P אמיתיים.</p><p><strong>ניתוח שיטתי (מהמצגת):</strong></p><ul><li>1. האם סדיר? - לא</li><li>2. אם לא סדיר – האם לא סדיר בצורה סדירה? או לא סדיר בצורה לא סדירה? - לא סדיר בצורה לא סדירה</li><li>3. מה המהירות? - 11 קומפלקסים ב6 שניות כלומר קצב של 110 פעימות בדקה</li><li>4. האם קיים גל P ? אם כן, מה המורפולוגיה שלו? - קיימים 3 סוגים של גלי P שונים</li><li>5. האם יש קומפלקס QRS אחרי כל גל P? כן</li><li>6. האם יש גל P לפני כל QRS ? כן</li><li>7.יחס מספרי P:QRS? -  יחס של 1:1</li><li>7. מרווח PR - תקין</li><li>8.רוחב QRS ? - צר</li><li>9. אבחנה של קצב ומקצב - MAT בקצב של כ110 פעימות בדקה</li></ul>","flags":[],"step_reg":2,"step_qrs":0,"look_for":"סמן לפחות 3 צורות P שונות לאורך הסטריפ; אל תבלבל עם AFib — כאן יש P אמיתיים."},{"id":"case-12","slide":12,"source":"strip","stem":"10.  גבר בן 68 לאחר אוטם חריף מרגיש סחרחורת והתעלף בזמן מנוחה","answer":"Monomorphic VT בקצב של כ150 פעימות בדקה","short":"Monomorphic VT","image":"images/slide12.jpg","options":["AVNRT","AVRT antidromic","Monomorphic VT","Sinus tachycardia"],"correct":2,"steps":[{"label":"סדירות","value":"כן"},{"label":"קצב","value":"2 משבצות גדולות כלומר קצב 150"},{"label":"גל P","value":"לא קיים"},{"label":"יחס P:QRS","value":"לא רלוונטי"},{"label":"מרווח PR","value":"לא רלוונטי"},{"label":"רוחב QRS","value":"רחב"}],"explain_html":"<p><strong>אבחנה:</strong> Monomorphic VT בקצב של כ150 פעימות בדקה</p><p><strong>איפה להסתכל על הסטריפ:</strong> כל הקומפלקסים רחבים ובאותה צורה; סדיר ומהיר. אין P קשור.</p><p><strong>ניתוח שיטתי (מהמצגת):</strong></p><ul><li>1. האם סדיר? - כן</li><li>2. אם לא סדיר – האם לא סדיר בצורה סדירה? או לא סדיר בצורה לא סדירה? - לא רלוונטי</li><li>3. מה המהירות? -  2 משבצות גדולות כלומר קצב 150</li><li>4. האם קיים גל P ? אם כן, מה המורפולוגיה שלו? - לא קיים</li><li>5. האם יש קומפלקס QRS אחרי כל גל P? לא רלוונטי</li><li>6. האם יש גל P לפני כל QRS ? לא רלוונטי</li><li>7.יחס מספרי P:QRS? - לא רלוונטי</li><li>7. מרווח PR - לא רלוונטי</li><li>8.רוחב QRS ? - רחב</li><li>9. אבחנה של קצב ומקצב - Monomorphic VT בקצב של כ150 פעימות בדקה</li></ul>","flags":[],"step_reg":0,"step_qrs":1,"look_for":"כל הקומפלקסים רחבים ובאותה צורה; סדיר ומהיר. אין P קשור."},{"id":"case-13","slide":13,"source":"strip","stem":"11.  בת 35 אחרי טיפול ממושך באנטיביוטיקה ממשפחת הפלורוקווינולונים מדווחת על חולשה קיצונית ואיבוד הכרה פתאומי בביתה.","answer":"Polymorphic VT בקצב של כ-200 פעימות בדקה","short":"Polymorphic VT / TdP","image":"images/slide13.jpg","options":["Monomorphic VT","Polymorphic VT / TdP","VF","AVNRT"],"correct":1,"steps":[{"label":"סדירות","value":"לא"},{"label":"קצב","value":"20 פעימות ב6 שניות כלומר 200 פעימות בדקה"},{"label":"גל P","value":"לא קיים"},{"label":"יחס P:QRS","value":"לא רלוונטי"},{"label":"מרווח PR","value":"לא רלוונטי"},{"label":"רוחב QRS","value":"רחב"}],"explain_html":"<p><strong>אבחנה:</strong> Polymorphic VT בקצב של כ-200 פעימות בדקה</p><p><strong>איפה להסתכל על הסטריפ:</strong> האמפליטודה/הציר משתנים — מראה של גל שמתפתל סביב הקו. חפש רקע של QT/תרופות/הקאות.</p><p><strong>ניתוח שיטתי (מהמצגת):</strong></p><ul><li>1. האם סדיר? - לא</li><li>2. אם לא סדיר – האם לא סדיר בצורה סדירה? או לא סדיר בצורה לא סדירה? - לא סדיר בצורה לא סדירה</li><li>3. מה המהירות? -  20 פעימות ב6 שניות כלומר 200 פעימות בדקה</li><li>4. האם קיים גל P ? אם כן, מה המורפולוגיה שלו? - לא קיים</li><li>5. האם יש קומפלקס QRS אחרי כל גל P? לא רלוונטי</li><li>6. האם יש גל P לפני כל QRS ? לא רלוונטי</li><li>7.יחס מספרי P:QRS? -  לא רלוונטי</li><li>7. מרווח PR - לא רלוונטי</li><li>8.רוחב QRS ? - רחב</li><li>9. אבחנה של קצב ומקצב - Polymorphic VT בקצב של כ-200 פעימות בדקה</li></ul>","flags":[],"step_reg":2,"step_qrs":1,"look_for":"האמפליטודה/הציר משתנים — מראה של גל שמתפתל סביב הקו. חפש רקע של QT/תרופות/הקאות."},{"id":"case-14","slide":14,"source":"strip","stem":"12.  גבר בן 55 קורס לפתע ברחוב ומגיע למיון ללא דופק.","answer":"VF בקצב של כ420 בדקה (אין פעימות)","short":"VF","image":"images/slide14.jpg","options":["Polymorphic VT","VF","AFib","Asystole"],"correct":1,"steps":[{"label":"סדירות","value":"לא"},{"label":"קצב","value":"42 פעימות ב6 שניות כלומר קצב של כ-420 בדקה"},{"label":"גל P","value":"לא קיים"},{"label":"יחס P:QRS","value":"לא רלוונטי"},{"label":"מרווח PR","value":"לא רלוונטי"},{"label":"רוחב QRS","value":"רחב"}],"explain_html":"<p><strong>אבחנה:</strong> VF בקצב של כ420 בדקה (אין פעימות)</p><p><strong>איפה להסתכל על הסטריפ:</strong> אין קומפלקס מזוהה — קו גלי כאוטי. אין דופק.</p><p><strong>ניתוח שיטתי (מהמצגת):</strong></p><ul><li>1. האם סדיר? - לא</li><li>2. אם לא סדיר – האם לא סדיר בצורה סדירה? או לא סדיר בצורה לא סדירה? - לא סדיר בצורה לא סידרה</li><li>3. מה המהירות? -  42 פעימות ב6 שניות כלומר קצב של כ-420 בדקה</li><li>4. האם קיים גל P ? אם כן, מה המורפולוגיה שלו? - לא קיים</li><li>5. האם יש קומפלקס QRS אחרי כל גל P? לא רלוונטי</li><li>6. האם יש גל P לפני כל QRS ? לא רלוונטי</li><li>7.יחס מספרי P:QRS? -  לא רלוונטי</li><li>7. מרווח PR - לא רלוונטי</li><li>8.רוחב QRS ? - רחב</li><li>9. אבחנה של קצב ומקצב - VF בקצב של כ420 בדקה (אין פעימות)</li></ul>","flags":[],"step_reg":2,"step_qrs":2,"look_for":"אין קומפלקס מזוהה — קו גלי כאוטי. אין דופק."},{"id":"case-15","slide":15,"source":"strip","stem":"13.  ספורטאי בן 22 נבדק לפני תחרות.","answer":"sinus bradycardia  בקצב של כ-38 פעימות בדקה","short":"Sinus bradycardia","image":"images/slide15.jpg","options":["NSR","Sinus bradycardia","Complete AVB","Junctional escape"],"correct":1,"steps":[{"label":"סדירות","value":"כן"},{"label":"קצב","value":"8 משבצות גדולות כלומר קצב כ-38 עימות בדקה"},{"label":"גל P","value":"קיים, מורפולוגיה תקינה"},{"label":"יחס P:QRS","value":"יחס של 1:1"},{"label":"מרווח PR","value":"תקין"},{"label":"רוחב QRS","value":"צר"}],"explain_html":"<p><strong>אבחנה:</strong> sinus bradycardia  בקצב של כ-38 פעימות בדקה</p><p><strong>איפה להסתכל על הסטריפ:</strong> P תקין, 1:1, אבל מרווחי R-R ארוכים מאוד.</p><p><strong>ניתוח שיטתי (מהמצגת):</strong></p><ul><li>1. האם סדיר? - כן</li><li>2. אם לא סדיר – האם לא סדיר בצורה סדירה? או לא סדיר בצורה לא סדירה? - לא רלוונטי</li><li>3. מה המהירות? - 8 משבצות גדולות כלומר קצב כ-38 עימות בדקה</li><li>4. האם קיים גל P ? אם כן, מה המורפולוגיה שלו? - קיים, מורפולוגיה תקינה</li><li>5. האם יש קומפלקס QRS אחרי כל גל P? כן</li><li>6. האם יש גל P לפני כל QRS ? כן</li><li>7.יחס מספרי P:QRS? -  יחס של 1:1</li><li>7. מרווח PR - תקין</li><li>8.רוחב QRS ? - צר</li><li>9. אבחנה של קצב ומקצב - sinus bradycardia  בקצב של כ-38 פעימות בדקה</li></ul>","flags":[],"step_reg":0,"step_qrs":0,"look_for":"P תקין, 1:1, אבל מרווחי R-R ארוכים מאוד."},{"id":"case-16","slide":16,"source":"strip","stem":"14.  גבר בן 60 מגיע לבדיקת אק\"ג שגרתית ללא תלונות","answer":"avb מדרגה ראשונה בקצב של כ75 פעמות בדקה","short":"1° AVB","image":"images/slide16.jpg","options":["NSR","1° AVB","Mobitz I","Mobitz II"],"correct":1,"steps":[{"label":"סדירות","value":"כן"},{"label":"קצב","value":"4 משבצות גדולות כלומר קצב 75"},{"label":"גל P","value":"קיים, מורפולוגיה תקינה"},{"label":"יחס P:QRS","value":"יחס של 1:1"},{"label":"מרווח PR","value":"מוארך (0.28 שניות)"},{"label":"רוחב QRS","value":"צר"}],"explain_html":"<p><strong>אבחנה:</strong> avb מדרגה ראשונה בקצב של כ75 פעמות בדקה</p><p><strong>איפה להסתכל על הסטריפ:</strong> מדוד PR — ארוך מ-5 משבצות קטנות (&gt;200ms) אך כל P מוליך.</p><p><strong>ניתוח שיטתי (מהמצגת):</strong></p><ul><li>1. האם סדיר? - כן</li><li>2. אם לא סדיר – האם לא סדיר בצורה סדירה? או לא סדיר בצורה לא סדירה? - לא רלוונטי</li><li>3. מה המהירות? -  4 משבצות גדולות כלומר קצב 75</li><li>4. האם קיים גל P ? אם כן, מה המורפולוגיה שלו? - קיים, מורפולוגיה תקינה</li><li>5. האם יש קומפלקס QRS אחרי כל גל P? כן</li><li>6. האם יש גל P לפני כל QRS ? כן</li><li>7.יחס מספרי P:QRS? -  יחס של 1:1</li><li>7. מרווח PR - מוארך (0.28 שניות)</li><li>8.רוחב QRS ? - צר</li><li>9. אבחנה של קצב ומקצב - avb מדרגה ראשונה בקצב של כ75 פעמות בדקה</li></ul>","flags":[],"step_reg":0,"step_qrs":0,"look_for":"מדוד PR — ארוך מ-5 משבצות קטנות (>200ms) אך כל P מוליך."},{"id":"case-17","slide":17,"source":"strip","stem":"15. סטודנט לרפואה בריא חווה סחרחורת קלה לאחר צום ממושך","answer":"mobitz 1 בקצב של כ-60 פעימות בדקה","short":"Mobitz I (Wenckebach)","image":"images/slide17.jpg","options":["1° AVB","Mobitz I (Wenckebach)","Mobitz II","Complete AVB"],"correct":1,"steps":[{"label":"סדירות","value":"לא"},{"label":"קצב","value":"6 פעימות ב6 שניות כלומר קצב של כ-60 פעימות בדקה"},{"label":"גל P","value":"קיים, מורפולוגיה תקינה"},{"label":"יחס P:QRS","value":"על כל 4 גלי P יש 3 QRS"},{"label":"מרווח PR","value":"מתארך, מתארך, מתארך, נפילה של קומפלקס"},{"label":"רוחב QRS","value":"צר"}],"explain_html":"<p><strong>אבחנה:</strong> mobitz 1 בקצב של כ-60 פעימות בדקה</p><p><strong>איפה להסתכל על הסטריפ:</strong> עקוב אחרי PR מפעימה לפעימה: מתארך עד שנפילה. סמן את ה-P בלי QRS.</p><p><strong>ניתוח שיטתי (מהמצגת):</strong></p><ul><li>1. האם סדיר? - לא</li><li>2. אם לא סדיר – האם לא סדיר בצורה סדירה? או לא סדיר בצורה לא סדירה? - לא סדיר בצורה סדירה</li><li>3. מה המהירות? -  6 פעימות ב6 שניות כלומר קצב של כ-60 פעימות בדקה</li><li>4. האם קיים גל P ? אם כן, מה המורפולוגיה שלו? - קיים, מורפולוגיה תקינה</li><li>5. האם יש קומפלקס QRS אחרי כל גל P? לא</li><li>6. האם יש גל P לפני כל QRS ? כן</li><li>7.יחס מספרי P:QRS? -  על כל 4 גלי P יש 3 QRS</li><li>7. מרווח PR - מתארך, מתארך, מתארך, נפילה של קומפלקס</li><li>8.רוחב QRS ? - צר</li><li>9. אבחנה של קצב ומקצב - mobitz 1 בקצב של כ-60 פעימות בדקה</li></ul>","flags":[],"step_reg":2,"step_qrs":0,"look_for":"עקוב אחרי PR מפעימה לפעימה: מתארך עד שנפילה. סמן את ה-P בלי QRS."},{"id":"case-18","slide":18,"source":"strip","stem":"16.  גבר בן 75 עם היסטוריה של אוטם קדמי מתלונן על עילפון פתאומי בזמן ישיבה","answer":"mobitz 2 בקצב של כ-60 פעימות בדקה","short":"Mobitz II","image":"images/slide18.jpg","options":["Mobitz I (Wenckebach)","Mobitz II","1° AVB","Sinus bradycardia"],"correct":1,"steps":[{"label":"סדירות","value":"לא"},{"label":"קצב","value":"6 פעימות ב6 שניות כלומר קצב של כ-60 פעימות בדקה"},{"label":"גל P","value":"קיים, מורפולוגיה תקינה"},{"label":"יחס P:QRS","value":"על כל 4 גלי P יש 3 QRS"},{"label":"מרווח PR","value":"תקין, אולם יש נפילה של קומפלקס באופן מפתיע"},{"label":"רוחב QRS","value":"צר"}],"explain_html":"<p><strong>אבחנה:</strong> mobitz 2 בקצב של כ-60 פעימות בדקה</p><p><strong>איפה להסתכל על הסטריפ:</strong> PR קבוע, ואז פתאום P בלי QRS. אין התארכות לפני הנפילה.</p><p><strong>ניתוח שיטתי (מהמצגת):</strong></p><ul><li>1. האם סדיר? - לא</li><li>2. אם לא סדיר – האם לא סדיר בצורה סדירה? או לא סדיר בצורה לא סדירה? - לא סדיר בצורה סדירה</li><li>3. מה המהירות? -  6 פעימות ב6 שניות כלומר קצב של כ-60 פעימות בדקה</li><li>4. האם קיים גל P ? אם כן, מה המורפולוגיה שלו? - קיים, מורפולוגיה תקינה</li><li>5. האם יש קומפלקס QRS אחרי כל גל P? לא</li><li>6. האם יש גל P לפני כל QRS ? כן</li><li>7.יחס מספרי P:QRS? -  על כל 4 גלי P יש 3 QRS</li><li>7. מרווח PR - תקין, אולם יש נפילה של קומפלקס באופן מפתיע</li><li>8.רוחב QRS ? - צר</li><li>9. אבחנה של קצב ומקצב - mobitz 2 בקצב של כ-60 פעימות בדקה</li></ul>","flags":[],"step_reg":2,"step_qrs":0,"look_for":"PR קבוע, ואז פתאום P בלי QRS. אין התארכות לפני הנפילה."},{"id":"case-19","slide":19,"source":"strip","stem":"17.  גבר בן 78 עם היסטוריה של מחלת הולכה מתאשפז לאחר כמה אירועי סינקופה","answer":"high degree AVB עם יחס העברה של 3:1","short":"High-grade AVB","image":"images/slide19.jpg","options":["Mobitz II","High-grade AVB","Complete AVB","Sinus bradycardia"],"correct":1,"steps":[{"label":"סדירות","value":"כן"},{"label":"קצב","value":"9 משבצות גדולות כלומר קצב של כ-34 פעימות לדקה"},{"label":"גל P","value":"קיים, מורפולוגיה תקינה"},{"label":"יחס P:QRS","value":"על כל 3 גלי P יש  QRS 1"},{"label":"מרווח PR","value":"תקין"},{"label":"רוחב QRS","value":"צר"}],"explain_html":"<p><strong>אבחנה:</strong> high degree AVB עם יחס העברה של 3:1</p><p><strong>איפה להסתכל על הסטריפ:</strong> מספר P רצופים בלי QRS (למשל 3:1). עדיין יש דפוס הולכה חלקי.</p><p><strong>ניתוח שיטתי (מהמצגת):</strong></p><ul><li>1. האם סדיר? - כן</li><li>2. אם לא סדיר – האם לא סדיר בצורה סדירה? או לא סדיר בצורה לא סדירה? - סדיר</li><li>3. מה המהירות? - 9 משבצות גדולות כלומר קצב של כ-34 פעימות לדקה</li><li>4. האם קיים גל P ? אם כן, מה המורפולוגיה שלו? - קיים, מורפולוגיה תקינה</li><li>5. האם יש קומפלקס QRS אחרי כל גל P? לא</li><li>6. האם יש גל P לפני כל QRS ? כן</li><li>7.יחס מספרי P:QRS? -  על כל 3 גלי P יש  QRS 1</li><li>7. מרווח PR - תקין</li><li>8.רוחב QRS ? - צר</li><li>9. אבחנה של קצב ומקצב - high degree AVB עם יחס העברה של 3:1</li></ul>","flags":[],"step_reg":0,"step_qrs":0,"look_for":"מספר P רצופים בלי QRS (למשל 3:1). עדיין יש דפוס הולכה חלקי."},{"id":"case-20","slide":20,"source":"strip","stem":"18.  אישה בת 82 עם סינקופה חוזרת מגיעה עם דופק איטי אך יציב","answer":"CAVB עם קצב בריחה צמתי בקצב של כ-38 פעימות בדקה","short":"Complete AVB + junctional escape","image":"images/slide20.jpg","options":["Complete AVB + junctional escape","Complete AVB + ventricular escape","Mobitz II","Sinus bradycardia"],"correct":0,"steps":[{"label":"סדירות","value":"כן"},{"label":"קצב","value":"8 משבצות גדולות כלומר קצב של כ38 פעימות בדקה"},{"label":"גל P","value":"קיים, מורפולוגיה תקינה"},{"label":"יחס P:QRS","value":"לא רלוונטי"},{"label":"מרווח PR","value":"לא רלוונטי"},{"label":"רוחב QRS","value":"צר"}],"explain_html":"<p><strong>אבחנה:</strong> CAVB עם קצב בריחה צמתי בקצב של כ-38 פעימות בדקה</p><p><strong>איפה להסתכל על הסטריפ:</strong> P בקצב עצמאי, QRS צר בקצב עצמאי אחר (~40) — בלי קשר קבוע.</p><p><strong>ניתוח שיטתי (מהמצגת):</strong></p><ul><li>1. האם סדיר? - כן</li><li>2. אם לא סדיר – האם לא סדיר בצורה סדירה? או לא סדיר בצורה לא סידרה? - לא רלוונטי</li><li>3. מה המהירות? -  8 משבצות גדולות כלומר קצב של כ38 פעימות בדקה</li><li>4. האם קיים גל P ? אם כן, מה המורפולוגיה שלו? - קיים, מורפולוגיה תקינה</li><li>5. האם יש קומפלקס QRS אחרי כל גל P? לא</li><li>6. האם יש גל P לפני כל QRS ? לא</li><li>ניתן לראות שאין קשר בין גלי הP לקומפלקס הQRS</li><li>7.יחס מספרי P:QRS? -  לא רלוונטי</li><li>7. מרווח PR - לא רלוונטי</li><li>8.רוחב QRS ? - צר</li><li>9. אבחנה של קצב ומקצב - CAVB עם קצב בריחה צמתי בקצב של כ-38 פעימות בדקה</li></ul>","flags":[],"step_reg":0,"step_qrs":0,"look_for":"P בקצב עצמאי, QRS צר בקצב עצמאי אחר (~40) — בלי קשר קבוע."},{"id":"case-21","slide":21,"source":"strip","stem":"19.  גבר בן 80 מגיע עם עילפון ודופק איטי","answer":"CAVB עם קצב בריחה חדרי בקצב של כ-34 פעימות בדקה","short":"Complete AVB + ventricular escape","image":"images/slide21.jpg","options":["Complete AVB + junctional escape","Complete AVB + ventricular escape","Idioventricular rhythm","Mobitz II"],"correct":1,"steps":[{"label":"סדירות","value":"כן"},{"label":"קצב","value":"9 משבצות גדולות כלומר קצב של כ34 פעימות בדקה"},{"label":"גל P","value":"קיים, מורפולוגיה תקינה"},{"label":"יחס P:QRS","value":"לא רלוונטי"},{"label":"מרווח PR","value":"לא רלוונטי"},{"label":"רוחב QRS","value":"רחב"}],"explain_html":"<p><strong>אבחנה:</strong> CAVB עם קצב בריחה חדרי בקצב של כ-34 פעימות בדקה</p><p><strong>איפה להסתכל על הסטריפ:</strong> P בקצב עצמאי, QRS רחב ואיטי מאוד (~30) — בלי קשר.</p><p><strong>ניתוח שיטתי (מהמצגת):</strong></p><ul><li>1. האם סדיר? - כן</li><li>2. אם לא סדיר – האם לא סדיר בצורה סדירה? או לא סדיר בצורה לא סידרה? - לא רלוונטי</li><li>3. מה המהירות? - 9 משבצות גדולות כלומר קצב של כ34 פעימות בדקה</li><li>4. האם קיים גל P ? אם כן, מה המורפולוגיה שלו? - קיים, מורפולוגיה תקינה</li><li>5. האם יש קומפלקס QRS אחרי כל גל P? לא</li><li>6. האם יש גל P לפני כל QRS ? לא</li><li>ניתן לראות שאין קשר בין גלי הP לקומפלקס הQRS</li><li>7.יחס מספרי P:QRS? -  לא רלוונטי</li><li>7. מרווח PR - לא רלוונטי</li><li>8.רוחב QRS ? - רחב</li><li>9. אבחנה של קצב ומקצב - CAVB עם קצב בריחה חדרי בקצב של כ-34 פעימות בדקה</li></ul>","flags":[],"step_reg":0,"step_qrs":1,"look_for":"P בקצב עצמאי, QRS רחב ואיטי מאוד (~30) — בלי קשר."},{"id":"case-22","slide":22,"source":"strip","stem":"20.  מטופל בן 65 לאחר טיפול תרומבוליטי מציג קצב חדרי איטי שחולף ספונטנית","answer":"idioventricular rythm\\venticular escape rythm בקצב של כ23 פעימות בדקה","short":"Idioventricular / ventricular escape","image":"images/slide22.jpg","options":["Junctional escape","Idioventricular / ventricular escape","Complete AVB","Monomorphic VT"],"correct":1,"steps":[{"label":"סדירות","value":"כן"},{"label":"קצב","value":"13 משבצות גדולות כלומר קצב של כ23 פעימות בדקה"},{"label":"גל P","value":"לא קיים"},{"label":"יחס P:QRS","value":"לא רלוונטי"},{"label":"מרווח PR","value":"לא רלוונטי"},{"label":"רוחב QRS","value":"רחב"}],"explain_html":"<p><strong>אבחנה:</strong> idioventricular rythm\\venticular escape rythm בקצב של כ23 פעימות בדקה</p><p><strong>איפה להסתכל על הסטריפ:</strong> QRS רחב ואיטי, בלי P מקדים. אחרי רה-פרפוזיה — לרוב חולף.</p><p><strong>ניתוח שיטתי (מהמצגת):</strong></p><ul><li>1. האם סדיר? - כן</li><li>2. אם לא סדיר – האם לא סדיר בצורה סדירה? או לא סדיר בצורה לא סידרה? - לא רלוונטי</li><li>3. מה המהירות? - 13 משבצות גדולות כלומר קצב של כ23 פעימות בדקה</li><li>4. האם קיים גל P ? אם כן, מה המורפולוגיה שלו? - לא קיים</li><li>5. האם יש קומפלקס QRS אחרי כל גל P? לא רלוונטי</li><li>6. האם יש גל P לפני כל QRS ? לא רלוונטי</li><li>7.יחס מספרי P:QRS? -  לא רלוונטי</li><li>7. מרווח PR - לא רלוונטי</li><li>8.רוחב QRS ? - רחב</li><li>9. אבחנה של קצב ומקצב - idioventricular rythm\\venticular escape rythm בקצב של כ23 פעימות בדקה</li></ul>","flags":[],"step_reg":0,"step_qrs":1,"look_for":"QRS רחב ואיטי, בלי P מקדים. אחרי רה-פרפוזיה — לרוב חולף."},{"id":"case-24","slide":24,"source":"monitor","stem":"1. גבר בן 42 עם כאב לוחץ בחזה ותחושת לחץ בצוואר","answer":"NSR בקצב של 78","short":"NSR","image":"images/slide24.jpg","options":["NSR","Sinus tachycardia","AVNRT","Atrial fibrillation"],"correct":0,"steps":[{"label":"סדירות","value":"כן"},{"label":"קצב","value":"רשום 78"},{"label":"גל P","value":"קיים, מורפולוגיה תקינה"},{"label":"יחס P:QRS","value":"יחס של 1:1"},{"label":"מרווח PR","value":"תקין"},{"label":"רוחב QRS","value":"צר"}],"explain_html":"<p><strong>אבחנה:</strong> NSR בקצב של 78</p><p><strong>איפה להסתכל על הסטריפ:</strong> חפש גל P עגול לפני כל QRS, מרווחי R-R שווים, קצב 60–100.</p><p><strong>ניתוח שיטתי (מהמצגת):</strong></p><ul><li>1. האם סדיר? - כן</li><li>2. אם לא סדיר – האם לא סדיר בצורה סדירה? או לא סדיר בצורה לא סדירה? - לא רלוונטי</li><li>3. מה המהירות? - רשום 78</li><li>4. האם קיים גל P ? אם כן, מה המורפולוגיה שלו? - קיים, מורפולוגיה תקינה</li><li>5. האם יש קומפלקס QRS אחרי כל גל P? כן</li><li>6. האם יש גל P לפני כל QRS ? כן</li><li>7.יחס מספרי P:QRS? -  יחס של 1:1</li><li>7. מרווח PR - תקין</li><li>8.רוחב QRS ? - צר</li><li>9. אבחנה של קצב ומקצב - NSR בקצב של 78</li></ul>","flags":[],"step_reg":0,"step_qrs":0,"look_for":"חפש גל P עגול לפני כל QRS, מרווחי R-R שווים, קצב 60–100."},{"id":"case-25","slide":25,"source":"monitor","stem":"2.  צעירה בת 28 עם חום גבוה והתייבשות מדווחת על דפיקות וחולשה","answer":"sinus tachycardia בקצב של 132 פעימות בדקה","short":"Sinus tachycardia","image":"images/slide25.jpg","options":["NSR","Sinus tachycardia","AVNRT","Atrial flutter"],"correct":1,"steps":[{"label":"סדירות","value":"כן"},{"label":"קצב","value":"רשום 132"},{"label":"גל P","value":"קיים, מורפולוגיה תקינה"},{"label":"יחס P:QRS","value":"יחס של 1:1"},{"label":"מרווח PR","value":"תקין"},{"label":"רוחב QRS","value":"צר"}],"explain_html":"<p><strong>אבחנה:</strong> sinus tachycardia בקצב של 132 פעימות בדקה</p><p><strong>איפה להסתכל על הסטריפ:</strong> אותם מאפייני סינוס אבל R-R קצר (קצב &gt;100). חפש P ב-lead II.</p><p><strong>ניתוח שיטתי (מהמצגת):</strong></p><ul><li>1. האם סדיר? - כן</li><li>2. אם לא סדיר – האם לא סדיר בצורה סדירה? או לא סדיר בצורה לא סדירה? - לא רלוונטי</li><li>3. מה המהירות? -  רשום 132</li><li>4. האם קיים גל P ? אם כן, מה המורפולוגיה שלו? - קיים, מורפולוגיה תקינה</li><li>5. האם יש קומפלקס QRS אחרי כל גל P? כן</li><li>6. האם יש גל P לפני כל QRS ? כן</li><li>7.יחס מספרי P:QRS? -  יחס של 1:1</li><li>7. מרווח PR - תקין</li><li>8.רוחב QRS ? - צר</li><li>9. אבחנה של קצב ומקצב - sinus tachycardia בקצב של 132 פעימות בדקה</li></ul>","flags":[],"step_reg":0,"step_qrs":0,"look_for":"אותם מאפייני סינוס אבל R-R קצר (קצב >100). חפש P ב-lead II."},{"id":"case-26","slide":26,"source":"monitor","stem":"3.  גבר בן 75 עם קוצר נשימה פתאומי ודפיקות לא סדירות","answer":"A.Fib בקצב של כ133 פעימות בדקה","short":"Atrial fibrillation","image":"images/slide26.jpg","options":["Atrial fibrillation","Atrial flutter","MAT","Sinus tachycardia"],"correct":0,"steps":[{"label":"סדירות","value":"לא"},{"label":"קצב","value":"רשום 133"},{"label":"גל P","value":"לא קיים"},{"label":"יחס P:QRS","value":"לא רלוונטי"},{"label":"מרווח PR","value":"לא רלוונטי"},{"label":"רוחב QRS","value":"צר"}],"explain_html":"<p><strong>אבחנה:</strong> A.Fib בקצב של כ133 פעימות בדקה</p><p><strong>איפה להסתכל על הסטריפ:</strong> אין P כלל; ה-baseline רועד; מדוד כמה מרווחי R-R ותראה שהם משתנים באקראי.</p><p><strong>ניתוח שיטתי (מהמצגת):</strong></p><ul><li>1. האם סדיר? - לא</li><li>2. אם לא סדיר – האם לא סדיר בצורה סדירה? או לא סדיר בצורה לא סדירה? - לא סדיר בצורה לא סדירה</li><li>3. מה המהירות? -  רשום 133</li><li>4. האם קיים גל P ? אם כן, מה המורפולוגיה שלו? - לא קיים</li><li>5. האם יש קומפלקס QRS אחרי כל גל P? לא רלוונטי</li><li>6. האם יש גל P לפני כל QRS ? לא רלוונטי</li><li>7.יחס מספרי P:QRS? -  לא רלוונטי</li><li>7. מרווח PR - לא רלוונטי</li><li>8.רוחב QRS ? - צר</li><li>9. אבחנה של קצב ומקצב - A.Fib בקצב של כ133 פעימות בדקה</li></ul>","flags":[],"step_reg":2,"step_qrs":0,"look_for":"אין P כלל; ה-baseline רועד; מדוד כמה מרווחי R-R ותראה שהם משתנים באקראי."},{"id":"case-27","slide":27,"source":"monitor","stem":"4.  גבר בן 68 עם תחושת דפיקות חזקות וירידה בלחץ הדם","answer":"A.Flutter בקצב של כ74 פעימות בדקה עם יחס העברה של 4:1","short":"Atrial flutter","image":"images/slide27.jpg","options":["Atrial fibrillation","Atrial flutter","AVNRT","MAT"],"correct":1,"steps":[{"label":"סדירות","value":"כן"},{"label":"קצב","value":"רשום 74"},{"label":"גל P","value":"קיימים גלי F"},{"label":"יחס P:QRS","value":"לא רלוונטי"},{"label":"מרווח PR","value":"לא רלוונטי"},{"label":"רוחב QRS","value":"צר"}],"explain_html":"<p><strong>אבחנה:</strong> A.Flutter בקצב של כ74 פעימות בדקה עם יחס העברה של 4:1</p><p><strong>איפה להסתכל על הסטריפ:</strong> חפש מסור רציף בין הקומפלקסים (בעיקר תחתונים). ספור כמה &#x27;שיניים&#x27; בין שני QRS ליחס ההולכה.</p><p><strong>ניתוח שיטתי (מהמצגת):</strong></p><ul><li>1. האם סדיר? - כן</li><li>2. אם לא סדיר – האם לא סדיר בצורה סדירה? או לא סדיר בצורה לא סדירה? - לא רלוונטי</li><li>3. מה המהירות? - רשום 74</li><li>4. האם קיים גל P ? אם כן, מה המורפולוגיה שלו? - קיימים גלי F</li><li>5. האם יש קומפלקס QRS אחרי כל גל P? לא רלוונטי</li><li>6. האם יש גל P לפני כל QRS ? לא רלוונטי</li><li>7.יחס מספרי P:QRS? -  לא רלוונטי</li><li>7. מרווח PR - לא רלוונטי</li><li>8.רוחב QRS ? - צר</li><li>9. אבחנה של קצב ומקצב - A.Flutter בקצב של כ74 פעימות בדקה עם יחס העברה של 4:1</li></ul>","flags":[],"step_reg":0,"step_qrs":0,"look_for":"חפש מסור רציף בין הקומפלקסים (בעיקר תחתונים). ספור כמה 'שיניים' בין שני QRS ליחס ההולכה."},{"id":"case-28","slide":28,"source":"monitor","stem":"5.  צעירה בת 26 עם דפיקות מהירות ותחושת לחץ בחזה","answer":"AVNRT בקצב של 169 פעימות בדקה","short":"AVNRT","image":"images/slide28.jpg","options":["Sinus tachycardia","AVNRT","Atrial fibrillation","Monomorphic VT"],"correct":1,"steps":[{"label":"סדירות","value":"כן"},{"label":"קצב","value":"רשום 169"},{"label":"גל P","value":"לא קיים"},{"label":"יחס P:QRS","value":"לא רלוונטי"},{"label":"מרווח PR","value":"לא רלוונטי"},{"label":"רוחב QRS","value":"צר"}],"explain_html":"<p><strong>אבחנה:</strong> AVNRT בקצב של 169 פעימות בדקה</p><p><strong>איפה להסתכל על הסטריפ:</strong> קצב סדיר ומהיר, QRS צר, baseline שטוח בלי P ברור לפני הקומפלקס — ה-P נטמן בתוך/אחרי QRS.</p><p><strong>ניתוח שיטתי (מהמצגת):</strong></p><ul><li>1. האם סדיר? - כן</li><li>2. אם לא סדיר – האם לא סדיר בצורה סדירה? או לא סדיר בצורה לא סדירה? - לא רלוונטי</li><li>3. מה המהירות? -  רשום 169</li><li>4. האם קיים גל P ? אם כן, מה המורפולוגיה שלו? - לא קיים</li><li>5. האם יש קומפלקס QRS אחרי כל גל P? לא רלוונטי</li><li>6. האם יש גל P לפני כל QRS ? לא רלוונטי</li><li>7.יחס מספרי P:QRS? - לא רלוונטי</li><li>7. מרווח PR - לא רלוונטי</li><li>8.רוחב QRS ? - צר</li><li>9. אבחנה של קצב ומקצב - AVNRT בקצב של 169 פעימות בדקה</li></ul>","flags":[],"step_reg":0,"step_qrs":0,"look_for":"קצב סדיר ומהיר, QRS צר, baseline שטוח בלי P ברור לפני הקומפלקס — ה-P נטמן בתוך/אחרי QRS."},{"id":"case-29","slide":29,"source":"monitor","stem":"6.  גבר בן 70 לאחר אוטם חריף קורס במיון עם ירידה בלחץ הדם","answer":"Monomorphic VT בקצב של כ181 פעימות בדקה","short":"Monomorphic VT","image":"images/slide29.jpg","options":["AVNRT","AVRT antidromic","Monomorphic VT","Sinus tachycardia"],"correct":2,"steps":[{"label":"סדירות","value":"כן"},{"label":"קצב","value":"רשום 181"},{"label":"גל P","value":"לא קיים"},{"label":"יחס P:QRS","value":"לא רלוונטי"},{"label":"מרווח PR","value":"לא רלוונטי"},{"label":"רוחב QRS","value":"רחב"}],"explain_html":"<p><strong>אבחנה:</strong> Monomorphic VT בקצב של כ181 פעימות בדקה</p><p><strong>איפה להסתכל על הסטריפ:</strong> כל הקומפלקסים רחבים ובאותה צורה; סדיר ומהיר. אין P קשור.</p><p><strong>ניתוח שיטתי (מהמצגת):</strong></p><ul><li>1. האם סדיר? - כן</li><li>2. אם לא סדיר – האם לא סדיר בצורה סדירה? או לא סדיר בצורה לא סדירה? - לא רלוונטי</li><li>3. מה המהירות? - רשום 181</li><li>4. האם קיים גל P ? אם כן, מה המורפולוגיה שלו? - לא קיים</li><li>5. האם יש קומפלקס QRS אחרי כל גל P? לא רלוונטי</li><li>6. האם יש גל P לפני כל QRS ? לא רלוונטי</li><li>7.יחס מספרי P:QRS? -  לא רלוונטי</li><li>7. מרווח PR - לא רלוונטי</li><li>8.רוחב QRS ? - רחב</li><li>9. אבחנה של קצב ומקצב - Monomorphic VT בקצב של כ181 פעימות בדקה</li></ul>","flags":[],"step_reg":0,"step_qrs":1,"look_for":"כל הקומפלקסים רחבים ובאותה צורה; סדיר ומהיר. אין P קשור."},{"id":"case-30","slide":30,"source":"monitor","stem":"7.  צעירה בת 30 לאחר סיפור של רבוי הקאות בימים האחרונים, מאבדת הכרה לפרקים","answer":"Polymorphic VT בקצב של כ198 פעימות בדקה","short":"Polymorphic VT / TdP","image":"images/slide30.jpg","options":["Monomorphic VT","Polymorphic VT / TdP","VF","AVNRT"],"correct":1,"steps":[{"label":"סדירות","value":"לא"},{"label":"קצב","value":"רשום 198"},{"label":"גל P","value":"לא קיים"},{"label":"יחס P:QRS","value":"לא רלוונטי"},{"label":"מרווח PR","value":"לא רלוונטי"},{"label":"רוחב QRS","value":"רחב"}],"explain_html":"<p><strong>אבחנה:</strong> Polymorphic VT בקצב של כ198 פעימות בדקה</p><p><strong>איפה להסתכל על הסטריפ:</strong> האמפליטודה/הציר משתנים — מראה של גל שמתפתל סביב הקו. חפש רקע של QT/תרופות/הקאות.</p><p><strong>ניתוח שיטתי (מהמצגת):</strong></p><ul><li>1. האם סדיר? - לא</li><li>2. אם לא סדיר – האם לא סדיר בצורה סדירה? או לא סדיר בצורה לא סדירה? - לא סדיר בצורה לא סדירה</li><li>3. מה המהירות? - רשום 198</li><li>4. האם קיים גל P ? אם כן, מה המורפולוגיה שלו? - לא קיים</li><li>5. האם יש קומפלקס QRS אחרי כל גל P? לא רלוונטי</li><li>6. האם יש גל P לפני כל QRS ? לא רלוונטי</li><li>7.יחס מספרי P:QRS? -  לא רלוונטי</li><li>7. מרווח PR - לא רלוונטי</li><li>8.רוחב QRS ? - רחב</li><li>9. אבחנה של קצב ומקצב - Polymorphic VT בקצב של כ198 פעימות בדקה</li></ul>","flags":[],"step_reg":2,"step_qrs":1,"look_for":"האמפליטודה/הציר משתנים — מראה של גל שמתפתל סביב הקו. חפש רקע של QT/תרופות/הקאות."},{"id":"case-31","slide":31,"source":"monitor","stem":"8.  גבר בן 60 קורס בחדר מיון במהלך בירור כאבים בחזה","answer":"VF בקצב של כ212 (אין פעימות)","short":"VF","image":"images/slide31.jpg","options":["Polymorphic VT","VF","AFib","Asystole"],"correct":1,"steps":[{"label":"סדירות","value":"לא"},{"label":"קצב","value":"רשום 212"},{"label":"גל P","value":"לא קיים"},{"label":"יחס P:QRS","value":"לא רלוונטי"},{"label":"מרווח PR","value":"לא רלוונטי"},{"label":"רוחב QRS","value":"רחב"}],"explain_html":"<p><strong>אבחנה:</strong> VF בקצב של כ212 (אין פעימות)</p><p><strong>איפה להסתכל על הסטריפ:</strong> אין קומפלקס מזוהה — קו גלי כאוטי. אין דופק.</p><p><strong>ניתוח שיטתי (מהמצגת):</strong></p><ul><li>1. האם סדיר? - לא</li><li>2. אם לא סדיר – האם לא סדיר בצורה סדירה? או לא סדיר בצורה לא סדירה? - לא סדיר בצורה לא סדירה</li><li>3. מה המהירות? -  רשום 212</li><li>4. האם קיים גל P ? אם כן, מה המורפולוגיה שלו? - לא קיים</li><li>5. האם יש קומפלקס QRS אחרי כל גל P? לא רלוונטי</li><li>6. האם יש גל P לפני כל QRS ? לא רלוונטי</li><li>7.יחס מספרי P:QRS? -  לא רלוונטי</li><li>7. מרווח PR - לא רלוונטי</li><li>8.רוחב QRS ? - רחב</li><li>8. אבחנה של קצב ומקצב -VF בקצב של כ212 (אין פעימות)</li></ul>","flags":[],"step_reg":2,"step_qrs":2,"look_for":"אין קומפלקס מזוהה — קו גלי כאוטי. אין דופק."},{"id":"case-32","slide":32,"source":"monitor","stem":"9. ספורטאי בן 25 שהגיע לבדיקת אק\"ג לצורך אישור רפואי","answer":"Sinus Bradycardia בקצב של 53 פעימות לדקה","short":"Sinus bradycardia","image":"images/slide32.jpg","options":["NSR","Sinus bradycardia","Complete AVB","Junctional escape"],"correct":1,"steps":[{"label":"סדירות","value":"כן"},{"label":"קצב","value":"רשום 53"},{"label":"גל P","value":"קיים, מורפולוגיה תקינה"},{"label":"יחס P:QRS","value":"יחס של 1:1"},{"label":"מרווח PR","value":"תקין"},{"label":"רוחב QRS","value":"צר"}],"explain_html":"<p><strong>אבחנה:</strong> Sinus Bradycardia בקצב של 53 פעימות לדקה</p><p><strong>איפה להסתכל על הסטריפ:</strong> P תקין, 1:1, אבל מרווחי R-R ארוכים מאוד.</p><p><strong>ניתוח שיטתי (מהמצגת):</strong></p><ul><li>1. האם סדיר? - כן</li><li>2. אם לא סדיר – האם לא סדיר בצורה סדירה? או לא סדיר בצורה לא סדירה? - לא רלוונטי</li><li>3. מה המהירות? - רשום 53</li><li>4. האם קיים גל P ? אם כן, מה המורפולוגיה שלו? - קיים, מורפולוגיה תקינה</li><li>5. האם יש קומפלקס QRS אחרי כל גל P? כן</li><li>6. האם יש גל P לפני כל QRS ? כן</li><li>7.יחס מספרי P:QRS? -  יחס של 1:1</li><li>7. מרווח PR - תקין</li><li>8.רוחב QRS ? - צר</li><li>8. אבחנה של קצב ומקצב -Sinus Bradycardia בקצב של 53 פעימות לדקה</li></ul>","flags":[],"step_reg":0,"step_qrs":0,"look_for":"P תקין, 1:1, אבל מרווחי R-R ארוכים מאוד."},{"id":"case-33","slide":33,"source":"monitor","stem":"10.  צעיר בן 35 עם תלונות של תחושת עילפון וחולשה","answer":"Mobitz 1 בקצב של 56 פעימות לדקה","short":"Mobitz I (Wenckebach)","image":"images/slide33.jpg","options":["1° AVB","Mobitz I (Wenckebach)","Mobitz II","Complete AVB"],"correct":1,"steps":[{"label":"סדירות","value":"לא"},{"label":"קצב","value":"רשום 56"},{"label":"גל P","value":"קיים, מורפולוגיה תקינה"},{"label":"יחס P:QRS","value":"על כל 5 גלי P יש 4 QRS"},{"label":"מרווח PR","value":"מתארך מתארך מתארך מתארך ונופל"},{"label":"רוחב QRS","value":"צר"}],"explain_html":"<p><strong>אבחנה:</strong> Mobitz 1 בקצב של 56 פעימות לדקה</p><p><strong>איפה להסתכל על הסטריפ:</strong> עקוב אחרי PR מפעימה לפעימה: מתארך עד שנפילה. סמן את ה-P בלי QRS.</p><p><strong>ניתוח שיטתי (מהמצגת):</strong></p><ul><li>1. האם סדיר? - לא</li><li>2. אם לא סדיר – האם לא סדיר בצורה סדירה? או לא סדיר בצורה לא סדירה? - לא סדיר בצורה סדירה</li><li>3. מה המהירות? - רשום 56</li><li>4. האם קיים גל P ? אם כן, מה המורפולוגיה שלו? - קיים, מורפולוגיה תקינה</li><li>5. האם יש קומפלקס QRS אחרי כל גל P? לא</li><li>6. האם יש גל P לפני כל QRS ? כן</li><li>7.יחס מספרי P:QRS? -  על כל 5 גלי P יש 4 QRS</li><li>7. מרווח PR -מתארך מתארך מתארך מתארך ונופל</li><li>8.רוחב QRS ? - צר</li><li>8. אבחנה של קצב ומקצב -Mobitz 1 בקצב של 56 פעימות לדקה</li></ul>","flags":[],"step_reg":2,"step_qrs":0,"look_for":"עקוב אחרי PR מפעימה לפעימה: מתארך עד שנפילה. סמן את ה-P בלי QRS."},{"id":"case-34","slide":34,"source":"monitor","stem":"11.  גבר בן 75 לאחר אוטם קדמי מדווח על סחרחורת קשה","answer":"Mobitz 2 בקצב של 50 פעימות בדקה","short":"Mobitz II","image":"images/slide34.jpg","options":["Mobitz I (Wenckebach)","Mobitz II","1° AVB","Sinus bradycardia"],"correct":1,"steps":[{"label":"סדירות","value":"לא"},{"label":"קצב","value":"רשום 50"},{"label":"גל P","value":"קיים, מורפולוגיה תקינה"},{"label":"יחס P:QRS","value":"אין יחס קבוע, יש נפילות קומפלקס ללא הכנה מוקדמת"},{"label":"מרווח PR","value":"תקין"},{"label":"רוחב QRS","value":"צר"}],"explain_html":"<p><strong>אבחנה:</strong> Mobitz 2 בקצב של 50 פעימות בדקה</p><p><strong>איפה להסתכל על הסטריפ:</strong> PR קבוע, ואז פתאום P בלי QRS. אין התארכות לפני הנפילה.</p><p><strong>ניתוח שיטתי (מהמצגת):</strong></p><ul><li>1. האם סדיר? - לא</li><li>2. אם לא סדיר – האם לא סדיר בצורה סדירה? או לא סדיר בצורה לא סדירה? - לא סדיר בצורה לא סדירה</li><li>3. מה המהירות? -  רשום 50</li><li>4. האם קיים גל P ? אם כן, מה המורפולוגיה שלו? - קיים, מורפולוגיה תקינה</li><li>5. האם יש קומפלקס QRS אחרי כל גל P? לא</li><li>6. האם יש גל P לפני כל QRS ? כן</li><li>7.יחס מספרי P:QRS? -  אין יחס קבוע, יש נפילות קומפלקס ללא הכנה מוקדמת</li><li>7. מרווח PR - תקין</li><li>8.רוחב QRS ? - צר</li><li>8. אבחנה של קצב ומקצב - Mobitz 2 בקצב של 50 פעימות בדקה</li></ul>","flags":[],"step_reg":2,"step_qrs":0,"look_for":"PR קבוע, ואז פתאום P בלי QRS. אין התארכות לפני הנפילה."},{"id":"case-35","slide":35,"source":"monitor","stem":"12.  אישה בת 82 לאחר עילפון מתלוננת על בילבול","answer":"High Grade AVB בקצב של 30 פעימות לדקה. יחס העברה של 3:1","short":"High-grade AVB","image":"images/slide35.jpg","options":["Mobitz II","High-grade AVB","Complete AVB","Sinus bradycardia"],"correct":1,"steps":[{"label":"סדירות","value":"כן"},{"label":"קצב","value":"רשום 32"},{"label":"גל P","value":"קיים, מורפולוגיה תקינה"},{"label":"יחס P:QRS","value":"על כל 3 גלי P ישקומפלקס QRS 1"},{"label":"מרווח PR","value":"תקין"},{"label":"רוחב QRS","value":"צר"}],"explain_html":"<p><strong>אבחנה:</strong> High Grade AVB בקצב של 30 פעימות לדקה. יחס העברה של 3:1</p><p><strong>איפה להסתכל על הסטריפ:</strong> מספר P רצופים בלי QRS (למשל 3:1). עדיין יש דפוס הולכה חלקי.</p><p><strong>ניתוח שיטתי (מהמצגת):</strong></p><ul><li>1. האם סדיר? - כן</li><li>2. אם לא סדיר – האם לא סדיר בצורה סדירה? או לא סדיר בצורה לא סידרה? - לא רלוונטי</li><li>3. מה המהירות? - רשום 32</li><li>4. האם קיים גל P ? אם כן, מה המורפולוגיה שלו? - קיים, מורפולוגיה תקינה</li><li>5. האם יש קומפלקס QRS אחרי כל גל P? לא</li><li>6. האם יש גל P לפני כל QRS ? כן</li><li>7.יחס מספרי P:QRS? - על כל 3 גלי P ישקומפלקס QRS 1</li><li>7. מרווח PR - תקין</li><li>8.רוחב QRS ? - צר</li><li>8. אבחנה של קצב ומקצב -High Grade AVB בקצב של 30 פעימות לדקה. יחס העברה של 3:1</li></ul>","flags":[],"step_reg":0,"step_qrs":0,"look_for":"מספר P רצופים בלי QRS (למשל 3:1). עדיין יש דפוס הולכה חלקי."},{"id":"case-36","slide":36,"source":"monitor","stem":"13. גבר בן 80 מגיע לאחר עלפון, מעיד על דופק איטי מאוד וחולשה קיצונית","answer":"CAVB עם קצב בריחה חדרי בקצב של כ-34 פעימות בדקה","short":"Complete AVB + ventricular escape","image":"images/slide36.jpg","options":["Complete AVB + junctional escape","Complete AVB + ventricular escape","Idioventricular rhythm","Mobitz II"],"correct":1,"steps":[{"label":"סדירות","value":"כן (קצב בריחה סדיר)"},{"label":"קצב","value":"ברדיקרדיה משמעותית (~30–40; על המוניטור HR נמוך)"},{"label":"גל P","value":"קיימים, ללא קשר עקבי ל-QRS"},{"label":"רוחב QRS","value":"רחב — בריחה חדרית"},{"label":"אבחנה","value":"CAVB עם ventricular escape"}],"explain_html":"<p><strong>אבחנה:</strong> CAVB עם קצב בריחה חדרי בקצב של כ-34 פעימות בדקה</p><p><strong>איפה להסתכל על הסטריפ:</strong> P בקצב עצמאי, QRS רחב ואיטי מאוד (~30) — בלי קשר.</p><p><strong>ניתוח:</strong> ברדיקרדיה קיצונית על מוניטור עם דיסוציאציה AV ו-QRS רחב → CAVB עם ventricular escape. הערות השקף היו copy-paste שגוי של NSR והושמטו.</p><p class='flag flag-major'>⚠ תיקון רפואי: בהערות לשקף זה הודבק בטעות ניתוח של NSR בקצב 75. התשובה על השקף (CAVB עם בריחה חדרית) והתמונה (ברדיקרדיה על מוניטור) הן הנכונות — ההערות הושמטו.</p>","flags":[{"severity":"major","text":"בהערות לשקף זה הודבק בטעות ניתוח של NSR בקצב 75. התשובה על השקף (CAVB עם בריחה חדרית) והתמונה (ברדיקרדיה על מוניטור) הן הנכונות — ההערות הושמטו."}],"step_reg":0,"step_qrs":0,"look_for":"P בקצב עצמאי, QRS רחב ואיטי מאוד (~30) — בלי קשר."}],"conceptual":[{"id":"c1","stem":"שיטת 300: בין שני R יש 5 משבצות גדולות. מה הקצב המשוער?","options":["50","60","75","100"],"correct":1,"explain_html":"<p>300÷5 = 60 פעימות לדקה.</p>"},{"id":"c2","stem":"מטופל עם COPD, קצב לא סדיר, ו-4 מורפולוגיות P שונות. האבחנה הסבירה?","options":["AFib","MAT","Flutter 2:1","AVNRT"],"correct":1,"explain_html":"<p>MAT: ≥3 צורות P + קשר ל-COPD/היפוקסיה. יש P — בניגוד ל-AFib.</p>"},{"id":"c3","stem":"מה ההבדל המרכזי בין Mobitz I ל-Mobitz II?","options":["ב-Mobitz I ה-PR מתארך לפני נפילה; ב-II ה-PR קבוע","ב-Mobitz I אין נפילות QRS","Mobitz II תמיד עם קצב >150","אין הבדל — רק שמות"],"correct":0,"explain_html":"<p>Wenckebach = התארכות פרוגרסיבית. Mobitz II = נפילה פתאומית עם PR קבוע — מסוכן יותר.</p>"},{"id":"c4","stem":"Wide-complex tachycardia סדיר אחרי אוטם — הגישה הראשונית?","options":["הנח SVT עם aberrancy","התייחס כ-VT עד שיוכח אחרת","תן Digoxin","התעלם אם המטופל מדבר"],"correct":1,"explain_html":"<p>כלל זהב קליני: WCT במטופל עם לב חולה = VT עד שתוכיח אחרת.</p>"},{"id":"c5","stem":"Torsades de Pointes — איזה אלקטרוליט/טיפול ראשון?","options":["Calcium IV","Magnesium IV","Sodium bicarb תמיד","Insulin+glucose"],"correct":1,"explain_html":"<p>MgSO₄ IV הוא הטיפול הראשון ב-TdP, גם כשרמת Mg 'תקינה'.</p>"},{"id":"c6","stem":"Flutter עם גלי F בקצב 300 ויחס 2:1 — קצב חדרי?","options":["75","100","150","300"],"correct":2,"explain_html":"<p>300÷2 = 150. זה יכול להיראות כמו SVT — חפש מסור ב-II/III/aVF.</p>"},{"id":"c7","stem":"Orthodromic AVRT — רוחב QRS?","options":["צר","רחב","משתנה כל פעימה","תמיד עם delta גלוי בטכיקרדיה"],"correct":0,"explain_html":"<p>אורתודרומי: ירידה דרך AV node → QRS צר. הדלתא מופיעה בסינוס, לא בהכרח בטכיקרדיה.</p>"},{"id":"c8","stem":"Complete heart block — מה נכון?","options":["כל P מוליך עם PR ארוך","אין קשר בין P ל-QRS (AV dissociation)","PR מתארך עד נפילה","תמיד QRS צר"],"correct":1,"explain_html":"<p>CAVB = דיסוציאציה מלאה. ה-QRS צר או רחב לפי גובה הבריחה.</p>"}],"corrections":["Slide 7 (AVRT antidromic): notes said QRS narrow — corrected to wide.","Slide 36: notes were copy-paste of NSR — ignored; kept on-slide answer CAVB + ventricular escape."]};</script>
+<script>
+
+const STORAGE_KEY = 'ecg-nadav-progress-v1';
+let state = loadState();
+let quizQueue = [];
+let quizIndex = 0;
+let currentFilter = 'all';
+
+function loadState(){
+  try{ return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {answered:{}}; }
+  catch(e){ return {answered:{}}; }
+}
+function saveState(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+
+function allQuestions(){
+  const cases = DATA.cases.map(c => Object.assign({}, c, {kind:'case'}));
+  const concepts = DATA.conceptual.map(c => ({
+    id:c.id, stem:c.stem, options:c.options, correct:c.correct,
+    explain_html:c.explain_html, kind:'concept', source:'concept', short:'Concept', answer:c.options[c.correct]
+  }));
+  return cases.concat(concepts);
+}
+
+function showPanel(name){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  document.querySelectorAll('#mainnav button').forEach(b=>{
+    b.classList.toggle('active', b.dataset.panel===name);
+  });
+  if(name==='theory'){ renderTheoryList(); hideTheoryDetail(); }
+  if(name==='practice'){ if(!quizQueue.length) startQuiz(currentFilter); else renderQuestion(); }
+  if(name==='review'){ renderReview(); }
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+document.querySelectorAll('#mainnav button').forEach(b=>{
+  b.addEventListener('click', ()=> showPanel(b.dataset.panel));
+});
+
+document.getElementById('stat-topics').textContent = DATA.theory.length;
+document.getElementById('stat-cases').textContent = DATA.cases.length;
+document.getElementById('stat-total').textContent = DATA.cases.length + DATA.conceptual.length;
+
+function renderTheoryList(){
+  const list = document.getElementById('theory-list');
+  const detail = document.getElementById('theory-detail');
+  list.style.display='grid';
+  detail.classList.remove('open');
+  list.innerHTML = DATA.theory.map((t,i)=>`
+    <div class="card" data-ti="${i}">
+      <div class="en">${t.title_en||''}</div>
+      <h3>${t.title}</h3>
+      <p>${esc(t.bottom).slice(0,90)}…</p>
+    </div>`).join('');
+  list.querySelectorAll('.card').forEach(card=>{
+    card.onclick=()=>openTheory(+card.dataset.ti);
+  });
+}
+function hideTheoryDetail(){
+  document.getElementById('theory-list').style.display='grid';
+  document.getElementById('theory-detail').classList.remove('open');
+}
+function openTheory(i){
+  const t = DATA.theory[i];
+  const list = document.getElementById('theory-list');
+  const detail = document.getElementById('theory-detail');
+  list.style.display='none';
+  detail.classList.add('open');
+  detail.innerHTML = `
+    <button class="back" id="back-theory">← חזרה לנושאים</button>
+    <article class="lesson">
+      <div class="tag">${esc(t.title_en||'')}</div>
+      <h2>${esc(t.title)}</h2>
+      <div class="block"><h4><span class="ic bl">1</span> שורה תחתונה</h4><p>${esc(t.bottom)}</p></div>
+      <div class="block"><h4><span class="ic me">2</span> מנגנון — למה האק״ג נראה כך</h4><p>${esc(t.mechanism)}</p></div>
+      <div class="block"><h4><span class="ic cl">3</span> דוגמה קלינית</h4><p>${esc(t.clinical)}</p></div>
+      <div class="block"><h4><span class="ic ho">4</span> Memory hook</h4><p>${esc(t.hook)}</p></div>
+      <div class="block selfcheck"><h4><span class="ic ch">5</span> ביקורת עצמית</h4>
+        <p><strong>${esc(t.check_q)}</strong></p>
+        <div class="opts" id="sc-opts"></div>
+        <div class="feedback" id="sc-fb"></div>
+      </div>
+      ${t.correction_note?`<p class="flag flag-major">⚠ ${esc(t.correction_note)}</p>`:''}
+      <div class="toolbar">
+        <button class="btn secondary" id="prev-t">נושא קודם</button>
+        <button class="btn" id="next-t">נושא הבא</button>
+      </div>
+    </article>`;
+  document.getElementById('back-theory').onclick=hideTheoryDetail;
+  document.getElementById('prev-t').onclick=()=>openTheory((i-1+DATA.theory.length)%DATA.theory.length);
+  document.getElementById('next-t').onclick=()=>openTheory((i+1)%DATA.theory.length);
+  const opts = document.getElementById('sc-opts');
+  t.check_opts.forEach((o,idx)=>{
+    const b=document.createElement('button');
+    b.className='opt'; b.textContent=o;
+    b.onclick=()=>{
+      [...opts.children].forEach((el,j)=>{
+        el.disabled=true;
+        if(j===t.check_ans) el.classList.add('correct');
+        if(j===idx && idx!==t.check_ans) el.classList.add('wrong');
+      });
+      document.getElementById('sc-fb').textContent = t.check_explain;
+    };
+    opts.appendChild(b);
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function esc(s){ return String(s).replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m])); }
+
+function startQuiz(filter){
+  currentFilter = filter || 'all';
+  document.querySelectorAll('#quiz-filters button').forEach(b=>{
+    b.classList.toggle('on', b.dataset.filter===currentFilter);
+  });
+  showPanel('practice');
+  let all = allQuestions();
+  if(currentFilter==='strip') all = all.filter(q=>q.source==='strip');
+  else if(currentFilter==='monitor') all = all.filter(q=>q.source==='monitor');
+  else if(currentFilter==='concept') all = all.filter(q=>q.kind==='concept');
+  else if(currentFilter==='mistakes') all = all.filter(q=>state.answered[q.id] && state.answered[q.id].ok===false);
+  quizQueue = all;
+  quizIndex = 0;
+  if(!quizQueue.length){
+    document.getElementById('quiz-area').innerHTML = '<div class="lesson"><p>אין שאלות במסנן הזה (או שאין טעויות עדיין).</p></div>';
+    updateScorebox();
+    return;
+  }
+  renderQuestion();
+}
+
+document.querySelectorAll('#quiz-filters button').forEach(b=>{
+  b.addEventListener('click', ()=> startQuiz(b.dataset.filter));
+});
+document.getElementById('btn-next').onclick=()=>{ if(quizIndex<quizQueue.length-1){quizIndex++; renderQuestion();} };
+document.getElementById('btn-prev').onclick=()=>{ if(quizIndex>0){quizIndex--; renderQuestion();} };
+document.getElementById('btn-shuffle').onclick=()=>{
+  for(let i=quizQueue.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [quizQueue[i],quizQueue[j]]=[quizQueue[j],quizQueue[i]]; }
+  quizIndex=0; renderQuestion();
+};
+
+function updateScorebox(){
+  const ok = Object.values(state.answered).filter(x=>x.ok).length;
+  const total = Object.keys(state.answered).length;
+  document.getElementById('scorebox').textContent = ok + ' נכון / ' + total + ' נענו';
+  const pct = quizQueue.length? ((quizIndex+1)/quizQueue.length*100) : 0;
+  document.getElementById('prog').style.width = pct+'%';
+}
+
+function renderQuestion(){
+  updateScorebox();
+  const q = quizQueue[quizIndex];
+  const area = document.getElementById('quiz-area');
+  const prev = state.answered[q.id];
+  const badge = q.kind==='concept' ? 'concept' : (q.source||'strip');
+  const badgeLabel = {strip:'סטריפ מהמצגת', monitor:'מסך מוניטור', concept:'שאלה עיונית'}[badge]||badge;
+
+  let stepsHtml = '';
+  if(q.kind==='case'){
+    stepsHtml = `
+      <div class="steps-row">
+        <div class="stepbox">
+          <label>שלב א׳ — סדירות</label>
+          <div class="opts" id="step-reg"></div>
+        </div>
+        <div class="stepbox">
+          <label>שלב ב׳ — רוחב QRS</label>
+          <div class="opts" id="step-qrs"></div>
+        </div>
+      </div>`;
+  }
+
+  area.innerHTML = `
+    <div class="qcard">
+      <div class="meta">
+        <span class="badge ${badge}">${badgeLabel}</span>
+        <span class="badge">${quizIndex+1} / ${quizQueue.length}</span>
+        ${q.slide?`<span class="badge">שקף ${q.slide}</span>`:''}
+      </div>
+      <p class="stem">${esc(q.stem)}</p>
+      ${q.image?`<img class="ecg" src="${q.image}" alt="ECG" onclick="openLightbox(this.src)"/>`:''}
+      ${stepsHtml}
+      <div class="stepbox">
+        <label>שלב ג׳ — אבחנה</label>
+        <div class="opts" id="diag-opts"></div>
+      </div>
+      <div class="toolbar">
+        <button class="btn" id="btn-check" ${prev?'disabled':''}>בדוק תשובה</button>
+        <button class="btn secondary" id="btn-reveal">הצג הסבר</button>
+      </div>
+      <div class="explain" id="explain" style="display:${prev?'block':'none'}">${q.explain_html||''}
+        ${q.look_for?`<p><strong>איפה להסתכל:</strong> ${esc(q.look_for)}</p>`:''}
+        ${q.steps&&q.steps.length?`<ul class="list-steps">${q.steps.map(s=>`<li><strong>${esc(s.label)}:</strong> ${esc(s.value)}</li>`).join('')}</ul>`:''}
+      </div>
+    </div>`;
+
+  const diag = document.getElementById('diag-opts');
+  let chosen = prev ? prev.chosen : null;
+  q.options.forEach((o,idx)=>{
+    const b=document.createElement('button');
+    b.className='opt';
+    b.textContent=o;
+    if(prev){
+      b.disabled=true;
+      if(idx===q.correct) b.classList.add('correct');
+      if(idx===prev.chosen && prev.chosen!==q.correct) b.classList.add('wrong');
+    } else {
+      b.onclick=()=>{
+        chosen=idx;
+        [...diag.children].forEach(el=>el.style.outline='');
+        b.style.outline='2px solid var(--accent2)';
+      };
+    }
+    diag.appendChild(b);
+  });
+
+  let chosenReg=null, chosenQrs=null;
+  if(q.kind==='case'){
+    const regOpts=['כן (סדיר)','לא — לא סדיר בצורה סדירה','לא — irregularly irregular'];
+    const qrsOpts=['צר (<120ms)','רחב (≥120ms)','לא רלוונטי / כאוטי'];
+    const regBox=document.getElementById('step-reg');
+    const qrsBox=document.getElementById('step-qrs');
+    regOpts.forEach((o,idx)=>{
+      const b=document.createElement('button'); b.className='opt'; b.textContent=o;
+      if(prev){ b.disabled=true; if(idx===q.step_reg) b.classList.add('correct'); }
+      else b.onclick=()=>{chosenReg=idx; [...regBox.children].forEach(el=>el.style.outline=''); b.style.outline='2px solid var(--accent2)';};
+      regBox.appendChild(b);
+    });
+    qrsOpts.forEach((o,idx)=>{
+      const b=document.createElement('button'); b.className='opt'; b.textContent=o;
+      if(prev){ b.disabled=true; if(idx===q.step_qrs) b.classList.add('correct'); }
+      else b.onclick=()=>{chosenQrs=idx; [...qrsBox.children].forEach(el=>el.style.outline=''); b.style.outline='2px solid var(--accent2)';};
+      qrsBox.appendChild(b);
+    });
+  }
+
+  document.getElementById('btn-reveal').onclick=()=>{
+    document.getElementById('explain').style.display='block';
+  };
+  document.getElementById('btn-check').onclick=()=>{
+    if(chosen===null || chosen===undefined){ alert('בחר אבחנה קודם'); return; }
+    const ok = chosen===q.correct;
+    state.answered[q.id] = {ok, chosen, at:Date.now()};
+    saveState();
+    [...diag.children].forEach((el,idx)=>{
+      el.disabled=true; el.style.outline='';
+      if(idx===q.correct) el.classList.add('correct');
+      if(idx===chosen && !ok) el.classList.add('wrong');
+    });
+    if(q.kind==='case'){
+      [...document.getElementById('step-reg').children].forEach((el,idx)=>{
+        el.disabled=true; el.style.outline='';
+        if(idx===q.step_reg) el.classList.add('correct');
+        else if(chosenReg!==null && idx===chosenReg && idx!==q.step_reg) el.classList.add('wrong');
+      });
+      [...document.getElementById('step-qrs').children].forEach((el,idx)=>{
+        el.disabled=true; el.style.outline='';
+        if(idx===q.step_qrs) el.classList.add('correct');
+        else if(chosenQrs!==null && idx===chosenQrs && idx!==q.step_qrs) el.classList.add('wrong');
+      });
+    }
+    document.getElementById('explain').style.display='block';
+    document.getElementById('btn-check').disabled=true;
+    updateScorebox();
+  };
+}
+
+function openLightbox(src){
+  document.getElementById('lightbox-img').src=src;
+  document.getElementById('lightbox').classList.add('open');
+}
+
+function renderReview(){
+  const all=allQuestions();
+  const answered=Object.keys(state.answered);
+  const ok=answered.filter(id=>state.answered[id].ok).length;
+  const bad=answered.length-ok;
+  document.getElementById('review-summary').innerHTML = `
+    <h3 style="margin-top:0">ההתקדמות שלך</h3>
+    <p>נענו: <strong>${answered.length}</strong> מתוך <strong>${all.length}</strong></p>
+    <p style="color:var(--good)">נכון: <strong>${ok}</strong></p>
+    <p style="color:var(--bad)">טעויות: <strong>${bad}</strong></p>
+    <div class="progress"><span style="width:${all.length?answered.length/all.length*100:0}%"></span></div>`;
+  const list=document.getElementById('review-list');
+  const wrongs=all.filter(q=>state.answered[q.id] && !state.answered[q.id].ok);
+  if(!wrongs.length){ list.innerHTML='<p class="muted">אין טעויות שמורות — כל הכבוד, או שעוד לא התחלת.</p>'; }
+  else{
+    list.innerHTML = '<h3>לשיפור</h3>'+wrongs.map(q=>`
+      <div class="review-item wrong">
+        <div class="badge">${q.kind==='concept'?'עיוני':q.source}</div>
+        <p><strong>${esc(q.stem)}</strong></p>
+        <p>בחרת: <span style="color:var(--bad)">${esc(q.options[state.answered[q.id].chosen])}</span></p>
+        <p>נכון: <span style="color:var(--good)">${esc(q.options[q.correct])}</span></p>
+      </div>`).join('');
+  }
+  document.getElementById('corrections-list').innerHTML =
+    (DATA.corrections||[]).map(c=>`<li>${esc(c)}</li>`).join('') || '<li>לא נמצאו טעויות עובדתיות חמורות מעבר לתיקוני איות.</li>';
+}
+
+document.getElementById('btn-reset').onclick=()=>{
+  if(confirm('לאפס את כל ההתקדמות?')){ state={answered:{}}; saveState(); renderReview(); updateScorebox(); }
+};
+
+updateScorebox();
+
+</script>
+</body>
+</html>
